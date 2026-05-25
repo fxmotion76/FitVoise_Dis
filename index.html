@@ -15,7 +15,7 @@
 <title>FitVoice</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&display=swap');
-:root{--app-bg:#f3eadc;--app-vh:100vh;--safe-top:env(safe-area-inset-top,0px);--safe-right:env(safe-area-inset-right,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);--ui-max-overscan:1.06}
+:root{--app-bg:#f3eadc;--app-vh:100vh;--safe-top:env(safe-area-inset-top,0px);--safe-right:env(safe-area-inset-right,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);--ui-max-overscan:1.11}
 @supports (height:100svh){:root{--app-vh:100svh}}
 @supports (height:100dvh){:root{--app-vh:100dvh}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -38,14 +38,14 @@ button:focus,input:focus{outline:0}
 .layer.hidden{display:none!important}
 .screen.active .profileEdge{position:fixed!important;z-index:30000!important;width:clamp(44px,10.8vw,58px)!important;height:clamp(44px,10.8vw,58px)!important;pointer-events:none}
 .screen.active .profileHitEdge{position:fixed!important;z-index:30001!important;width:clamp(52px,13vw,70px)!important;height:clamp(52px,13vw,70px)!important}
-.screen.active .profileEdgeTop{top:calc(var(--safe-top) + 6px)!important}
-.screen.active .profileEdgeBottom{bottom:calc(var(--safe-bottom) + 7px)!important;top:auto!important}
-.screen.active .profileEdgeLeft{left:calc(var(--safe-left) + 6px)!important}
-.screen.active .profileEdgeRight{right:calc(var(--safe-right) + 6px)!important;left:auto!important}
-.screen.active .profileHitTop{top:calc(var(--safe-top) + 2px)!important}
-.screen.active .profileHitBottom{bottom:calc(var(--safe-bottom) + 3px)!important;top:auto!important}
-.screen.active .profileHitLeft{left:calc(var(--safe-left) + 2px)!important}
-.screen.active .profileHitRight{right:calc(var(--safe-right) + 2px)!important;left:auto!important}
+.screen.active .profileEdgeTop{top:calc(var(--safe-top) + 16px)!important}
+.screen.active .profileEdgeBottom{bottom:calc(var(--safe-bottom) + 17px)!important;top:auto!important}
+.screen.active .profileEdgeLeft{left:calc(var(--safe-left) + 16px)!important}
+.screen.active .profileEdgeRight{right:calc(var(--safe-right) + 16px)!important;left:auto!important}
+.screen.active .profileHitTop{top:calc(var(--safe-top) + 12px)!important}
+.screen.active .profileHitBottom{bottom:calc(var(--safe-bottom) + 13px)!important;top:auto!important}
+.screen.active .profileHitLeft{left:calc(var(--safe-left) + 12px)!important}
+.screen.active .profileHitRight{right:calc(var(--safe-right) + 12px)!important;left:auto!important}
 .layer.nudge{transform:translateY(min(1cqw,.55cqh))}
 .layer.clockTilt{transform-origin:50% 92%;animation:clockPressTilt .26s ease-out}
 @keyframes clockPressTilt{0%{transform:rotate(0deg)}45%{transform:rotate(-7deg)}100%{transform:rotate(0deg)}}
@@ -79,7 +79,7 @@ button:focus,input:focus{outline:0}
 .uiText.white.en{text-shadow:none}
 #languageButtonText{left:14.166666667%;top:86.55%;width:70.370370370%;height:5.2%;font-size:min(5.6cqw,3.15cqh)}
 #languageHintText{left:30.833333333%;top:71.197916667%;width:max-content;height:auto;font-size:min(3.703704cqw,2.083333cqh);font-weight:400;white-space:nowrap}
-#hideText{left:32%;top:78.35%;width:max-content;height:auto;justify-content:center;color:#1a140f;font-size:min(2.15cqw,1.209375cqh);white-space:nowrap}
+#hideText{left:32%;top:78.35%;width:max-content;height:auto;justify-content:center;color:#1a140f;font-size:min(4.3cqw,2.41875cqh);white-space:nowrap}
 #hideText.en{justify-content:center}
 #createHintText{left:32.129629630%;top:76.979166667%;width:max-content;height:auto;font-size:min(3.703704cqw,2.083333cqh);font-weight:700;white-space:nowrap}
 .hit{position:absolute;z-index:10000;background:rgba(255,255,255,0)}
