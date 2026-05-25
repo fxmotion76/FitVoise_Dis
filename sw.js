@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fitvoice-pwa-v2';
+const CACHE_NAME = 'fitvoice-pwa-v3';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
