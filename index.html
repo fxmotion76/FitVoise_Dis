@@ -36,16 +36,16 @@ button:focus,input:focus{outline:0}
 .stage{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
 .layer{position:absolute;display:block;user-select:none;pointer-events:none}
 .layer.hidden{display:none!important}
-.screen.active .profileEdge{position:fixed!important;z-index:30000!important;width:clamp(48px,12vw,66px)!important;height:clamp(48px,12vw,66px)!important;pointer-events:none}
-.screen.active .profileHitEdge{position:fixed!important;z-index:30001!important;width:clamp(56px,14vw,76px)!important;height:clamp(56px,14vw,76px)!important}
-.screen.active .profileEdgeTop{top:calc(var(--safe-top) + 12px)!important}
-.screen.active .profileEdgeBottom{bottom:calc(var(--safe-bottom) + 14px)!important;top:auto!important}
-.screen.active .profileEdgeLeft{left:calc(var(--safe-left) + 14px)!important}
-.screen.active .profileEdgeRight{right:calc(var(--safe-right) + 14px)!important;left:auto!important}
-.screen.active .profileHitTop{top:calc(var(--safe-top) + 8px)!important}
-.screen.active .profileHitBottom{bottom:calc(var(--safe-bottom) + 10px)!important;top:auto!important}
-.screen.active .profileHitLeft{left:calc(var(--safe-left) + 10px)!important}
-.screen.active .profileHitRight{right:calc(var(--safe-right) + 10px)!important;left:auto!important}
+.screen.active .profileEdge{position:fixed!important;z-index:30000!important;width:clamp(44px,10.8vw,58px)!important;height:clamp(44px,10.8vw,58px)!important;pointer-events:none}
+.screen.active .profileHitEdge{position:fixed!important;z-index:30001!important;width:clamp(52px,13vw,70px)!important;height:clamp(52px,13vw,70px)!important}
+.screen.active .profileEdgeTop{top:calc(var(--safe-top) + 6px)!important}
+.screen.active .profileEdgeBottom{bottom:calc(var(--safe-bottom) + 7px)!important;top:auto!important}
+.screen.active .profileEdgeLeft{left:calc(var(--safe-left) + 6px)!important}
+.screen.active .profileEdgeRight{right:calc(var(--safe-right) + 6px)!important;left:auto!important}
+.screen.active .profileHitTop{top:calc(var(--safe-top) + 2px)!important}
+.screen.active .profileHitBottom{bottom:calc(var(--safe-bottom) + 3px)!important;top:auto!important}
+.screen.active .profileHitLeft{left:calc(var(--safe-left) + 2px)!important}
+.screen.active .profileHitRight{right:calc(var(--safe-right) + 2px)!important;left:auto!important}
 .layer.nudge{transform:translateY(min(1cqw,.55cqh))}
 .layer.clockTilt{transform-origin:50% 92%;animation:clockPressTilt .26s ease-out}
 @keyframes clockPressTilt{0%{transform:rotate(0deg)}45%{transform:rotate(-7deg)}100%{transform:rotate(0deg)}}
@@ -465,7 +465,13 @@ function drawProfileChar(){
   const canvas=document.getElementById('profileCharCanvas');
   if(!canvas||!item||!canvasTintAvailable)return false;
   canvas.style.left=item.x+'%';canvas.style.top=item.y+'%';canvas.style.width=item.w+'%';canvas.style.height=item.h+'%';
-  return drawTinted(canvas,profileCharImages[item.src],item.px,item.py);
+  const ok=drawTinted(canvas,profileCharImages[item.src],item.px,item.py);
+  if(ok){
+    Object.values(ids.profile.boy).forEach(id=>setId(id,false));
+    Object.values(ids.profile.girl).forEach(id=>setId(id,false));
+    canvas.classList.remove('hidden');
+  }
+  return ok;
 }
 function drawProfileCat(){
   const stage=Math.max(1,Math.min(9,state.stage||1));
@@ -792,6 +798,8 @@ function sync(){
   const profileCanvas=document.getElementById('profileCharCanvas');
   if(profileCanvas)profileCanvas.classList.toggle('hidden',!canvasTintAvailable);
   const profileOk=drawProfileChar();
+  Object.values(ids.profile.boy).forEach(id=>setId(id,false));
+  Object.values(ids.profile.girl).forEach(id=>setId(id,false));
   if(!profileOk){
     const chain=state.character==='girl'?ids.profile.girl:ids.profile.boy;
     setId(chain[stage],true);
