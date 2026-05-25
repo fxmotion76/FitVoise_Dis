@@ -36,6 +36,16 @@ button:focus,input:focus{outline:0}
 .stage{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
 .layer{position:absolute;display:block;user-select:none;pointer-events:none}
 .layer.hidden{display:none!important}
+.screen.active .profileEdge{position:fixed!important;z-index:30000!important;width:clamp(48px,12vw,66px)!important;height:clamp(48px,12vw,66px)!important;pointer-events:none}
+.screen.active .profileHitEdge{position:fixed!important;z-index:30001!important;width:clamp(56px,14vw,76px)!important;height:clamp(56px,14vw,76px)!important}
+.screen.active .profileEdgeTop{top:calc(var(--safe-top) + 12px)!important}
+.screen.active .profileEdgeBottom{bottom:calc(var(--safe-bottom) + 14px)!important;top:auto!important}
+.screen.active .profileEdgeLeft{left:calc(var(--safe-left) + 14px)!important}
+.screen.active .profileEdgeRight{right:calc(var(--safe-right) + 14px)!important;left:auto!important}
+.screen.active .profileHitTop{top:calc(var(--safe-top) + 8px)!important}
+.screen.active .profileHitBottom{bottom:calc(var(--safe-bottom) + 10px)!important;top:auto!important}
+.screen.active .profileHitLeft{left:calc(var(--safe-left) + 10px)!important}
+.screen.active .profileHitRight{right:calc(var(--safe-right) + 10px)!important;left:auto!important}
 .layer.nudge{transform:translateY(min(1cqw,.55cqh))}
 .layer.clockTilt{transform-origin:50% 92%;animation:clockPressTilt .26s ease-out}
 @keyframes clockPressTilt{0%{transform:rotate(0deg)}45%{transform:rotate(-7deg)}100%{transform:rotate(0deg)}}
@@ -221,10 +231,10 @@ button:focus,input:focus{outline:0}
 <canvas class="layer" data-screen="profile" id="profileCharCanvas" style="z-index:132"></canvas>
 <img class="layer" data-screen="profile" data-id="12:154" data-name="Ур. 1" data-src="assets/figma_layers/v03/12_154.png" style="left:29.028148148%;top:45.508125000%;width:6.851851852%;height:1.718750000%;z-index:141" alt="">
 <img class="layer" data-screen="profile" data-id="12:156" data-name="0/330" data-src="assets/figma_layers/v03/12_156.png" style="left:68.648518519%;top:45.599166667%;width:9.444444444%;height:1.510416667%;z-index:142" alt="">
-<img class="layer" data-screen="profile" data-id="10:143" data-name="Back 1" data-src="assets/figma_layers/v03/10_143.png" style="left:3.981481481%;top:1.979166667%;width:11.759259259%;height:5.937500000%;z-index:143" alt="">
-<img class="layer" data-screen="profile" data-id="10:144" data-name="Setting 1" data-src="assets/figma_layers/v03/10_144.png" style="left:84.722222222%;top:1.979166667%;width:11.759259259%;height:5.937500000%;z-index:144" alt="">
-<img class="layer" data-screen="profile" data-id="10:145" data-name="Vopros 1" data-src="assets/figma_layers/v03/10_145.png" style="left:84.722222222%;top:90.468750000%;width:11.111111111%;height:5.989583333%;z-index:145" alt="">
-<img class="layer" data-screen="profile" data-id="10:146" data-name="Present 1" data-src="assets/figma_layers/v03/10_146.png" style="left:5.648148148%;top:90.052083333%;width:11.666666667%;height:6.406250000%;z-index:146" alt="">
+<img class="layer profileEdge profileEdgeTop profileEdgeLeft" data-screen="profile" data-id="10:143" data-name="Back 1" data-src="assets/figma_layers/v03/10_143.png" style="left:3.981481481%;top:1.979166667%;width:11.759259259%;height:5.937500000%;z-index:143" alt="">
+<img class="layer profileEdge profileEdgeTop profileEdgeRight" data-screen="profile" data-id="10:144" data-name="Setting 1" data-src="assets/figma_layers/v03/10_144.png" style="left:84.722222222%;top:1.979166667%;width:11.759259259%;height:5.937500000%;z-index:144" alt="">
+<img class="layer profileEdge profileEdgeBottom profileEdgeRight" data-screen="profile" data-id="10:145" data-name="Vopros 1" data-src="assets/figma_layers/v03/10_145.png" style="left:84.722222222%;top:90.468750000%;width:11.111111111%;height:5.989583333%;z-index:145" alt="">
+<img class="layer profileEdge profileEdgeBottom profileEdgeLeft" data-screen="profile" data-id="10:146" data-name="Present 1" data-src="assets/figma_layers/v03/10_146.png" style="left:5.648148148%;top:90.052083333%;width:11.666666667%;height:6.406250000%;z-index:146" alt="">
 <img class="layer" data-screen="profile" data-id="5:63" data-name="SpeedLine1 5" data-src="assets/figma_layers/v03/5_63.png" style="left:11.944444444%;top:85.781250000%;width:7.685185185%;height:6.718750000%;z-index:147" alt="">
 <img class="layer" data-screen="profile" data-id="5:64" data-name="SpeedLine1 6" data-src="assets/figma_layers/v03/5_64.png" style="left:79.629629630%;top:86.197916667%;width:9.166666667%;height:7.083333333%;z-index:148" alt="">
 <img class="layer" data-screen="profile" data-id="12:150" data-name="XP 1" data-src="assets/figma_layers/v03/12_150.png" style="left:21.851851852%;top:44.739583333%;width:5.740740741%;height:3.229166667%;z-index:149" alt="">
@@ -243,8 +253,8 @@ button:focus,input:focus{outline:0}
 <img class="layer" data-screen="profile" data-id="48:24" data-name="Cat_8 1" data-src="assets/Cat/Cat_8.png" style="left:52.314814815%;top:25.364583333%;width:33.703703704%;height:19.270833333%;z-index:161" alt="">
 <canvas class="layer" data-screen="profile" id="profileCatCanvas" style="z-index:162"></canvas>
 <button class="hit" id="freezeBtn" style="left:62.222222222%;top:60.052083333%;width:19.444444444%;height:13.802083333%" aria-label="freeze"></button>
-<button class="hit" id="backBtn" style="left:3.981481481%;top:1.979166667%;width:11.759259259%;height:5.937500000%" aria-label="?????"></button>
-<button class="hit" id="settingsBtn" style="left:84.722222222%;top:1.979166667%;width:11.759259259%;height:5.937500000%" aria-label="Язык"></button>
+<button class="hit profileHitEdge profileHitTop profileHitLeft" id="backBtn" style="left:3.981481481%;top:1.979166667%;width:11.759259259%;height:5.937500000%" aria-label="?????"></button>
+<button class="hit profileHitEdge profileHitTop profileHitRight" id="settingsBtn" style="left:84.722222222%;top:1.979166667%;width:11.759259259%;height:5.937500000%" aria-label="Язык"></button>
 <button class="hit" id="trainingBtn" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%" aria-label="Тренировка"></button>
 <div class="profileNameText" id="profileNameText">Игорь</div>
 <div class="profileLiveText" id="profileStatusTitle">Пока еще хлюпик</div>
