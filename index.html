@@ -15,7 +15,7 @@
 <title>FitVoice</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&display=swap');
-:root{--app-bg:#f3eadc;--app-vh:100vh;--safe-top:env(safe-area-inset-top,0px);--safe-right:env(safe-area-inset-right,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px)}
+:root{--app-bg:#f3eadc;--app-vh:100vh;--safe-top:env(safe-area-inset-top,0px);--safe-right:env(safe-area-inset-right,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);--ui-max-overscan:1.06}
 @supports (height:100svh){:root{--app-vh:100svh}}
 @supports (height:100dvh){:root{--app-vh:100dvh}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -28,8 +28,7 @@ button:focus,input:focus{outline:0}
 .screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);opacity:0;pointer-events:none;overflow:hidden;background:var(--app-bg)}
 .screen::before{content:"";position:absolute;inset:0;background:var(--screen-bg) center/cover no-repeat;background-color:var(--app-bg);z-index:0}
 .screen.active{opacity:1;pointer-events:auto}
-.fit{position:relative;z-index:1;container-type:size;flex:0 0 auto;width:min(calc(100vw - var(--safe-left) - var(--safe-right)),calc((var(--app-vh) - var(--safe-top) - var(--safe-bottom)) * 9 / 16));height:auto;aspect-ratio:9/16;overflow:visible;background:transparent}
-@media (max-aspect-ratio:9/16){.fit{width:calc((var(--app-vh) - var(--safe-top) - var(--safe-bottom)) * 9 / 16);height:calc(var(--app-vh) - var(--safe-top) - var(--safe-bottom));max-width:none}}
+.fit{position:relative;z-index:1;container-type:size;flex:0 0 auto;width:min(calc((100vw - var(--safe-left) - var(--safe-right)) * var(--ui-max-overscan)),calc((var(--app-vh) - var(--safe-top) - var(--safe-bottom)) * 9 / 16));height:auto;aspect-ratio:9/16;overflow:visible;background:transparent}
 #screen-language{--screen-bg:url("assets/figma_layers/v03/2_74.png")}
 #screen-create{--screen-bg:url("assets/figma_layers/v03/2_75.png")}
 #screen-profile{--screen-bg:url("assets/figma_layers/v03/3_9.png")}
@@ -81,7 +80,7 @@ button:focus,input:focus{outline:0}
 <body>
 <div id="app">
 <section class="screen active" id="screen-language"><div class="fit"><div class="stage">
-<img class="debug-frame" src="assets/figma_frames/01_Language.png" alt="">
+<img class="debug-frame" data-src="assets/figma_frames/01_Language.png" alt="">
 <img class="layer" data-screen="language" data-id="2:74" data-name="Fon 1" src="assets/figma_layers/v03/2_74.png" style="left:0.000000000%;top:0.052083333%;width:100.000000000%;height:99.947916667%;z-index:100" alt="">
 <img class="layer" data-screen="language" data-id="3:18" data-name="buttonPress 1" src="assets/figma_layers/v03/3_18.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:101" alt="">
 <img class="layer" data-screen="language" data-id="3:19" data-name="btn_primary_normal 1" src="assets/figma_layers/v03/3_19.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:102" alt="">
@@ -121,44 +120,44 @@ button:focus,input:focus{outline:0}
 <div class="uiText hidden" id="hideText">Не показывать больше</div>
 </div></div></section>
 <section class="screen" id="screen-create"><div class="fit"><div class="stage">
-<img class="debug-frame" src="assets/figma_frames/02_CreateCharacter.png" alt="">
-<img class="layer" data-screen="create" data-id="2:75" data-name="Fon 1" src="assets/figma_layers/v03/2_75.png" style="left:0.000000000%;top:0.052083333%;width:100.000000000%;height:99.947916667%;z-index:100" alt="">
-<img class="layer" data-screen="create" data-id="3:20" data-name="buttonPress 1" src="assets/figma_layers/v03/3_20.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:101" alt="">
-<img class="layer" data-screen="create" data-id="3:21" data-name="btn_primary_normal 1" src="assets/figma_layers/v03/3_21.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:102" alt="">
-<img class="layer" data-screen="create" data-id="5:20" data-name="Enter_Name 1" src="assets/figma_layers/v03/5_20.png" style="left:15.833333333%;top:60.104166667%;width:67.870370370%;height:5.781250000%;z-index:103" alt="">
-<img class="layer" data-screen="create" data-id="7:94" data-name="Введите имя" src="assets/figma_layers/v03/7_94.png" style="left:18.953333333%;top:61.391250000%;width:25.925925926%;height:2.343750000%;z-index:104" alt="">
-<img class="layer" data-screen="create" data-id="5:21" data-name="Pencel 1" src="assets/figma_layers/v03/5_21.png" style="left:75.185185185%;top:61.093750000%;width:4.907407407%;height:2.916666667%;z-index:105" alt="">
-<img class="layer" data-screen="create" data-id="5:22" data-name="B_4 1" src="assets/figma_layers/v03/5_22.png" style="left:5.277777778%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:106" alt="">
-<img class="layer" data-screen="create" data-id="5:23" data-name="B_8_Start 1" src="assets/figma_layers/v03/5_23.png" style="left:2.222222222%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:107" alt="">
-<img class="layer" data-screen="create" data-id="5:24" data-name="G_4 1" src="assets/figma_layers/v03/5_24.png" style="left:44.814814815%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:108" alt="">
-<img class="layer" data-screen="create" data-id="5:25" data-name="G_8 1" src="assets/figma_layers/v03/5_25.png" style="left:43.518518519%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:109" alt="">
+<img class="debug-frame" data-src="assets/figma_frames/02_CreateCharacter.png" alt="">
+<img class="layer" data-screen="create" data-id="2:75" data-name="Fon 1" data-src="assets/figma_layers/v03/2_75.png" style="left:0.000000000%;top:0.052083333%;width:100.000000000%;height:99.947916667%;z-index:100" alt="">
+<img class="layer" data-screen="create" data-id="3:20" data-name="buttonPress 1" data-src="assets/figma_layers/v03/3_20.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:101" alt="">
+<img class="layer" data-screen="create" data-id="3:21" data-name="btn_primary_normal 1" data-src="assets/figma_layers/v03/3_21.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:102" alt="">
+<img class="layer" data-screen="create" data-id="5:20" data-name="Enter_Name 1" data-src="assets/figma_layers/v03/5_20.png" style="left:15.833333333%;top:60.104166667%;width:67.870370370%;height:5.781250000%;z-index:103" alt="">
+<img class="layer" data-screen="create" data-id="7:94" data-name="Введите имя" data-src="assets/figma_layers/v03/7_94.png" style="left:18.953333333%;top:61.391250000%;width:25.925925926%;height:2.343750000%;z-index:104" alt="">
+<img class="layer" data-screen="create" data-id="5:21" data-name="Pencel 1" data-src="assets/figma_layers/v03/5_21.png" style="left:75.185185185%;top:61.093750000%;width:4.907407407%;height:2.916666667%;z-index:105" alt="">
+<img class="layer" data-screen="create" data-id="5:22" data-name="B_4 1" data-src="assets/figma_layers/v03/5_22.png" style="left:5.277777778%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:106" alt="">
+<img class="layer" data-screen="create" data-id="5:23" data-name="B_8_Start 1" data-src="assets/figma_layers/v03/5_23.png" style="left:2.222222222%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:107" alt="">
+<img class="layer" data-screen="create" data-id="5:24" data-name="G_4 1" data-src="assets/figma_layers/v03/5_24.png" style="left:44.814814815%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:108" alt="">
+<img class="layer" data-screen="create" data-id="5:25" data-name="G_8 1" data-src="assets/figma_layers/v03/5_25.png" style="left:43.518518519%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:109" alt="">
 <canvas class="layer" data-screen="create" data-create-char="boyNormal" style="left:5.277777778%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:106"></canvas>
 <canvas class="layer" data-screen="create" data-create-char="boyActive" style="left:2.222222222%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:107"></canvas>
 <canvas class="layer" data-screen="create" data-create-char="girlNormal" style="left:44.814814815%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:108"></canvas>
 <canvas class="layer" data-screen="create" data-create-char="girlActive" style="left:43.518518519%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:109"></canvas>
-<img class="layer" data-screen="create" data-id="5:42" data-name="color_blue_norm 1" src="assets/figma_layers/v03/5_42.png" style="left:14.907407407%;top:66.979166667%;width:11.666666667%;height:5.781250000%;z-index:110" alt="">
-<img class="layer" data-screen="create" data-id="5:43" data-name="color_blue_press 1" src="assets/figma_layers/v03/5_43.png" style="left:14.907407407%;top:66.979166667%;width:11.666666667%;height:5.781250000%;z-index:111" alt="">
-<img class="layer" data-screen="create" data-id="5:44" data-name="color_green_norm 1" src="assets/figma_layers/v03/5_44.png" style="left:26.574074074%;top:66.979166667%;width:11.574074074%;height:5.781250000%;z-index:112" alt="">
-<img class="layer" data-screen="create" data-id="5:45" data-name="color_green_press 1" src="assets/figma_layers/v03/5_45.png" style="left:26.574074074%;top:66.979166667%;width:11.574074074%;height:5.781250000%;z-index:113" alt="">
-<img class="layer" data-screen="create" data-id="5:46" data-name="color_orange_norm 1" src="assets/figma_layers/v03/5_46.png" style="left:38.703703704%;top:67.031250000%;width:11.574074074%;height:5.781250000%;z-index:114" alt="">
-<img class="layer" data-screen="create" data-id="5:47" data-name="color_orange_press 1" src="assets/figma_layers/v03/5_47.png" style="left:38.703703704%;top:66.927083333%;width:11.574074074%;height:5.781250000%;z-index:115" alt="">
-<img class="layer" data-screen="create" data-id="5:48" data-name="color_purple_norm 1" src="assets/figma_layers/v03/5_48.png" style="left:71.203703704%;top:66.875000000%;width:11.574074074%;height:5.781250000%;z-index:116" alt="">
-<img class="layer" data-screen="create" data-id="5:49" data-name="color_purple_press 1" src="assets/figma_layers/v03/5_49.png" style="left:71.203703704%;top:66.770833333%;width:11.574074074%;height:5.781250000%;z-index:117" alt="">
-<img class="layer" data-screen="create" data-id="5:50" data-name="color_red_norm 1" src="assets/figma_layers/v03/5_50.png" style="left:50.370370370%;top:66.875000000%;width:11.574074074%;height:5.781250000%;z-index:118" alt="">
-<img class="layer" data-screen="create" data-id="5:51" data-name="color_red_press 1" src="assets/figma_layers/v03/5_51.png" style="left:50.370370370%;top:66.875000000%;width:11.574074074%;height:5.781250000%;z-index:119" alt="">
-<img class="layer" data-screen="create" data-id="5:52" data-name="color_yellow_norm 1" src="assets/figma_layers/v03/5_52.png" style="left:61.018518519%;top:66.875000000%;width:11.666666667%;height:5.781250000%;z-index:120" alt="">
-<img class="layer" data-screen="create" data-id="5:53" data-name="color_yellow_press 1" src="assets/figma_layers/v03/5_53.png" style="left:61.111111111%;top:66.979166667%;width:11.574074074%;height:5.781250000%;z-index:121" alt="">
-<img class="layer" data-screen="create" data-id="5:60" data-name="SpeedLine1 5" src="assets/figma_layers/v03/5_60.png" style="left:11.944444444%;top:85.781250000%;width:7.685185185%;height:6.718750000%;z-index:122" alt="">
-<img class="layer" data-screen="create" data-id="5:61" data-name="SpeedLine1 6" src="assets/figma_layers/v03/5_61.png" style="left:79.629629630%;top:86.197916667%;width:9.166666667%;height:7.083333333%;z-index:123" alt="">
-<img class="layer" data-screen="create" data-id="9:139" data-name="hint 1" src="assets/figma_layers/v03/9_139.png" style="left:16.574074074%;top:74.166666667%;width:66.851851852%;height:7.552083333%;z-index:124" alt="">
-<img class="layer" data-screen="create" data-id="9:140" data-name="Lampa 2" src="assets/figma_layers/v03/9_140.png" style="left:25.462962963%;top:76.250000000%;width:4.907407407%;height:3.177083333%;z-index:125" alt="">
-<img class="layer" data-screen="create" data-id="9:141" data-name="Можно изменить позже" src="assets/figma_layers/v03/9_141.png" style="left:32.129629630%;top:76.979166667%;width:40.740740741%;height:2.500000000%;z-index:126" alt="">
-<img class="layer" data-screen="create" data-id="48:8" data-name="ChoseCharacter_ENG 1" src="assets/characters/ChoseCharacter_ENG.png?v23" style="left:17.777777778%;top:7.656250000%;width:63.703703704%;height:17.343750000%;z-index:127" alt="">
-<img class="layer" data-screen="create" data-id="48:9" data-name="ChoseCharacter_RUS 1" src="assets/characters/ChoseCharacter_RUS.png?v23" style="left:18.425925926%;top:7.395833333%;width:63.703703704%;height:17.343750000%;z-index:128" alt="">
-<img class="layer" data-screen="create" data-id="48:12" data-name="Styrelka_Boy 1" src="assets/figma_layers/v03/48_12.png" style="left:37.314814815%;top:24.583333333%;width:20.555555556%;height:7.552083333%;z-index:129" alt="">
-<img class="layer" data-screen="create" data-id="48:13" data-name="Styrelka_Gerl 1" src="assets/figma_layers/v03/48_13.png" style="left:40.092592593%;top:24.583333333%;width:20.555555556%;height:7.552083333%;z-index:130" alt="">
-<img class="layer" data-screen="create" data-id="48:14" data-name="Cat_Like_1 1" src="assets/Cat/Cat_Like_1.png" style="left:33.078862008%;top:3.930344567%;width:30.786732421%;height:12.191394365%;z-index:131" alt="">
-<img class="layer" data-screen="create" data-id="48:15" data-name="Cat_Like_2 1" src="assets/Cat/Cat_Like_2.png" style="left:33.078862008%;top:3.878261233%;width:30.786732421%;height:12.191394365%;z-index:132" alt="">
+<img class="layer" data-screen="create" data-id="5:42" data-name="color_blue_norm 1" data-src="assets/figma_layers/v03/5_42.png" style="left:14.907407407%;top:66.979166667%;width:11.666666667%;height:5.781250000%;z-index:110" alt="">
+<img class="layer" data-screen="create" data-id="5:43" data-name="color_blue_press 1" data-src="assets/figma_layers/v03/5_43.png" style="left:14.907407407%;top:66.979166667%;width:11.666666667%;height:5.781250000%;z-index:111" alt="">
+<img class="layer" data-screen="create" data-id="5:44" data-name="color_green_norm 1" data-src="assets/figma_layers/v03/5_44.png" style="left:26.574074074%;top:66.979166667%;width:11.574074074%;height:5.781250000%;z-index:112" alt="">
+<img class="layer" data-screen="create" data-id="5:45" data-name="color_green_press 1" data-src="assets/figma_layers/v03/5_45.png" style="left:26.574074074%;top:66.979166667%;width:11.574074074%;height:5.781250000%;z-index:113" alt="">
+<img class="layer" data-screen="create" data-id="5:46" data-name="color_orange_norm 1" data-src="assets/figma_layers/v03/5_46.png" style="left:38.703703704%;top:67.031250000%;width:11.574074074%;height:5.781250000%;z-index:114" alt="">
+<img class="layer" data-screen="create" data-id="5:47" data-name="color_orange_press 1" data-src="assets/figma_layers/v03/5_47.png" style="left:38.703703704%;top:66.927083333%;width:11.574074074%;height:5.781250000%;z-index:115" alt="">
+<img class="layer" data-screen="create" data-id="5:48" data-name="color_purple_norm 1" data-src="assets/figma_layers/v03/5_48.png" style="left:71.203703704%;top:66.875000000%;width:11.574074074%;height:5.781250000%;z-index:116" alt="">
+<img class="layer" data-screen="create" data-id="5:49" data-name="color_purple_press 1" data-src="assets/figma_layers/v03/5_49.png" style="left:71.203703704%;top:66.770833333%;width:11.574074074%;height:5.781250000%;z-index:117" alt="">
+<img class="layer" data-screen="create" data-id="5:50" data-name="color_red_norm 1" data-src="assets/figma_layers/v03/5_50.png" style="left:50.370370370%;top:66.875000000%;width:11.574074074%;height:5.781250000%;z-index:118" alt="">
+<img class="layer" data-screen="create" data-id="5:51" data-name="color_red_press 1" data-src="assets/figma_layers/v03/5_51.png" style="left:50.370370370%;top:66.875000000%;width:11.574074074%;height:5.781250000%;z-index:119" alt="">
+<img class="layer" data-screen="create" data-id="5:52" data-name="color_yellow_norm 1" data-src="assets/figma_layers/v03/5_52.png" style="left:61.018518519%;top:66.875000000%;width:11.666666667%;height:5.781250000%;z-index:120" alt="">
+<img class="layer" data-screen="create" data-id="5:53" data-name="color_yellow_press 1" data-src="assets/figma_layers/v03/5_53.png" style="left:61.111111111%;top:66.979166667%;width:11.574074074%;height:5.781250000%;z-index:121" alt="">
+<img class="layer" data-screen="create" data-id="5:60" data-name="SpeedLine1 5" data-src="assets/figma_layers/v03/5_60.png" style="left:11.944444444%;top:85.781250000%;width:7.685185185%;height:6.718750000%;z-index:122" alt="">
+<img class="layer" data-screen="create" data-id="5:61" data-name="SpeedLine1 6" data-src="assets/figma_layers/v03/5_61.png" style="left:79.629629630%;top:86.197916667%;width:9.166666667%;height:7.083333333%;z-index:123" alt="">
+<img class="layer" data-screen="create" data-id="9:139" data-name="hint 1" data-src="assets/figma_layers/v03/9_139.png" style="left:16.574074074%;top:74.166666667%;width:66.851851852%;height:7.552083333%;z-index:124" alt="">
+<img class="layer" data-screen="create" data-id="9:140" data-name="Lampa 2" data-src="assets/figma_layers/v03/9_140.png" style="left:25.462962963%;top:76.250000000%;width:4.907407407%;height:3.177083333%;z-index:125" alt="">
+<img class="layer" data-screen="create" data-id="9:141" data-name="Можно изменить позже" data-src="assets/figma_layers/v03/9_141.png" style="left:32.129629630%;top:76.979166667%;width:40.740740741%;height:2.500000000%;z-index:126" alt="">
+<img class="layer" data-screen="create" data-id="48:8" data-name="ChoseCharacter_ENG 1" data-src="assets/characters/ChoseCharacter_ENG.png?v23" style="left:17.777777778%;top:7.656250000%;width:63.703703704%;height:17.343750000%;z-index:127" alt="">
+<img class="layer" data-screen="create" data-id="48:9" data-name="ChoseCharacter_RUS 1" data-src="assets/characters/ChoseCharacter_RUS.png?v23" style="left:18.425925926%;top:7.395833333%;width:63.703703704%;height:17.343750000%;z-index:128" alt="">
+<img class="layer" data-screen="create" data-id="48:12" data-name="Styrelka_Boy 1" data-src="assets/figma_layers/v03/48_12.png" style="left:37.314814815%;top:24.583333333%;width:20.555555556%;height:7.552083333%;z-index:129" alt="">
+<img class="layer" data-screen="create" data-id="48:13" data-name="Styrelka_Gerl 1" data-src="assets/figma_layers/v03/48_13.png" style="left:40.092592593%;top:24.583333333%;width:20.555555556%;height:7.552083333%;z-index:130" alt="">
+<img class="layer" data-screen="create" data-id="48:14" data-name="Cat_Like_1 1" data-src="assets/Cat/Cat_Like_1.png" style="left:33.078862008%;top:3.930344567%;width:30.786732421%;height:12.191394365%;z-index:131" alt="">
+<img class="layer" data-screen="create" data-id="48:15" data-name="Cat_Like_2 1" data-src="assets/Cat/Cat_Like_2.png" style="left:33.078862008%;top:3.878261233%;width:30.786732421%;height:12.191394365%;z-index:132" alt="">
 <canvas class="layer" data-screen="create" data-cat-like="1" style="left:33.078862008%;top:3.930344567%;width:30.786732421%;height:12.191394365%;z-index:131"></canvas>
 <canvas class="layer" data-screen="create" data-cat-like="2" style="left:33.078862008%;top:3.878261233%;width:30.786732421%;height:12.191394365%;z-index:132"></canvas>
 <input id="nameInput" maxlength="18" autocomplete="off">
@@ -175,73 +174,73 @@ button:focus,input:focus{outline:0}
 <div class="buttonText" id="createButtonText">ДАЛЕЕ</div>
 </div></div></section>
 <section class="screen" id="screen-profile"><div class="fit"><div class="stage">
-<img class="debug-frame" src="assets/figma_frames/03_Profile.png" alt="">
-<img class="layer" data-screen="profile" data-id="3:9" data-name="Fon 1" src="assets/figma_layers/v03/3_9.png" style="left:0.000000000%;top:0.052083333%;width:100.000000000%;height:99.947916667%;z-index:100" alt="">
-<img class="layer" data-screen="profile" data-id="3:30" data-name="buttonPress 1" src="assets/figma_layers/v03/3_30.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:101" alt="">
-<img class="layer" data-screen="profile" data-id="3:31" data-name="btn_primary_normal 1" src="assets/figma_layers/v03/3_31.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:102" alt="">
-<img class="layer" data-screen="profile" data-id="48:16" data-profile-banner="1" data-name="Verh_BannerNew 1" src="assets/figma_layers/v03/48_16.png" style="left:23.333333333%;top:8.750000000%;width:55.925925926%;height:15.208333333%;z-index:103" alt="">
-<img class="layer" data-screen="profile" data-id="54:29" data-profile-banner="2" data-name="Verh_BannerNew 2" src="assets/figma_layers/v03/48_16.png" style="left:25.185185185%;top:6.250000000%;width:55.925925926%;height:15.208333333%;z-index:103" alt="">
-<img class="layer" data-screen="profile" data-id="54:30" data-profile-banner="3" data-name="Verh_BannerNew 3" src="assets/figma_layers/v03/48_16.png" style="left:23.703703704%;top:0.833333333%;width:55.925925926%;height:15.208333333%;z-index:103" alt="">
-<img class="layer" data-screen="profile" data-id="6:68" data-name="Пока еще хлюпик" src="assets/figma_layers/v03/6_68.png" style="left:26.815555556%;top:50.142083333%;width:49.074074074%;height:2.812500000%;z-index:104" alt="">
-<img class="layer" data-screen="profile" data-id="7:88" data-name="Ещё не понял, зачем люди вообще двигаются." src="assets/figma_layers/v03/7_88.png" style="left:23.016296296%;top:54.029166667%;width:53.888888889%;height:4.375000000%;z-index:105" alt="">
-<img class="layer" data-screen="profile" data-id="7:90" data-name="Calendar 1" src="assets/figma_layers/v03/7_90.png" style="left:25.370370370%;top:76.614583333%;width:5.370370370%;height:3.125000000%;z-index:106" alt="">
-<img class="layer" data-screen="profile" data-id="6:73" data-name="hint 1" src="assets/figma_layers/v03/6_73.png" style="left:17.314814815%;top:74.531250000%;width:66.851851852%;height:7.552083333%;z-index:107" alt="">
-<img class="layer" data-screen="profile" data-id="6:75" data-name="Считается только раз в день" src="assets/figma_layers/v03/6_75.png" style="left:31.851851852%;top:77.239583333%;width:44.166666667%;height:2.187500000%;z-index:108" alt="">
-<img class="layer" data-screen="profile" data-id="6:77" data-name="Box_1 1" src="assets/figma_layers/v03/6_77.png" style="left:18.333333333%;top:60.052083333%;width:19.351851852%;height:13.802083333%;z-index:109" alt="">
-<img class="layer" data-screen="profile" data-id="6:86" data-name="Box_1 2" src="assets/figma_layers/v03/6_86.png" style="left:40.277777778%;top:60.052083333%;width:19.351851852%;height:13.802083333%;z-index:110" alt="">
-<img class="layer" data-screen="profile" data-id="18:12" data-name="ДЕНЬ ЗАСЧИТАН" src="assets/figma_layers/v03/18_12.png" style="left:44.092870370%;top:68.313750000%;width:11.666666667%;height:2.447916667%;z-index:111" alt="">
-<img class="layer" data-screen="profile" data-id="6:87" data-name="Box_1 3" src="assets/figma_layers/v03/6_87.png" style="left:62.222222222%;top:60.052083333%;width:19.444444444%;height:13.802083333%;z-index:112" alt="">
-<img class="layer" data-screen="profile" data-id="18:14" data-name="5" src="assets/figma_layers/v03/18_14.png" style="left:70.556296296%;top:66.998333333%;width:2.870370370%;height:2.395833333%;z-index:113" alt="">
-<img class="layer" data-screen="profile" data-id="18:15" data-name="заморозок" src="assets/figma_layers/v03/18_15.png" style="left:67.114814815%;top:70.204166667%;width:10.740740741%;height:0.937500000%;z-index:114" alt="">
-<img class="layer" data-screen="profile" data-id="6:84" data-name="Игорь" src="assets/figma_layers/v03/6_84.png" style="left:41.260000000%;top:13.111093750%;width:19.444444444%;height:4.739583333%;z-index:115" alt="">
-<img class="layer" data-screen="profile" data-id="7:91" data-name="Fire 1" src="assets/figma_layers/v03/7_91.png" style="left:23.333333333%;top:61.770833333%;width:8.518518519%;height:5.572916667%;z-index:116" alt="">
-<img class="layer" data-screen="profile" data-id="7:92" data-name="V_none 1" src="assets/figma_layers/v03/7_92.png" style="left:44.166666667%;top:62.812500000%;width:9.814814815%;height:4.947916667%;z-index:117" alt="">
-<img class="layer" data-screen="profile" data-id="7:93" data-name="V_Ok 1" src="assets/figma_layers/v03/7_93.png" style="left:44.166666667%;top:62.812500000%;width:9.814814815%;height:4.947916667%;z-index:118" alt="">
-<img class="layer" data-screen="profile" data-id="7:100" data-name="PlaskaLebvel 1" src="assets/figma_layers/v03/7_100.png" style="left:19.907407407%;top:43.489583333%;width:63.240740741%;height:6.041666667%;z-index:119" alt="">
-<img class="layer" data-screen="profile" data-id="7:99" data-name="Froze 1" src="assets/figma_layers/v03/7_99.png" style="left:67.407407407%;top:61.770833333%;width:9.074074074%;height:4.583333333%;z-index:120" alt="">
-<img class="layer" data-screen="profile" data-id="17:8" data-name="5" src="assets/figma_layers/v03/17_8.png" style="left:26.111851852%;top:67.362916667%;width:2.870370370%;height:2.395833333%;z-index:121" alt="">
-<img class="layer" data-screen="profile" data-id="18:10" data-name="дней подряд" src="assets/figma_layers/v03/18_10.png" style="left:20.882222222%;top:70.403333333%;width:13.240740741%;height:1.197916667%;z-index:122" alt="">
-<img class="layer" data-screen="profile" data-id="9:120" data-name="B_2 1" src="assets/figma_layers/v03/9_120.png" style="left:25.370370370%;top:13.281250000%;width:52.037037037%;height:29.322916667%;z-index:130" alt="">
-<img class="layer" data-screen="profile" data-id="9:119" data-name="B_1 1" src="assets/figma_layers/v03/9_119.png" style="left:25.370370370%;top:12.395833333%;width:52.037037037%;height:29.322916667%;z-index:131" alt="">
-<img class="layer" data-screen="profile" data-id="9:127" data-name="B_9 1" src="assets/Pers/B_9.png" style="left:14.259259259%;top:15.156250000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:126" data-name="B_8 1" src="assets/Pers/B_8.png" style="left:14.259259259%;top:15.416666667%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:125" data-name="B_7 1" src="assets/Pers/B_7.png" style="left:13.611111111%;top:15.156250000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:124" data-name="B_6 1" src="assets/Pers/B_6.png" style="left:13.611111111%;top:14.843750000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:123" data-name="B_5 1" src="assets/Pers/B_5.png" style="left:13.611111111%;top:15.052083333%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:122" data-name="B_4 2" src="assets/Pers/B_4.png" style="left:13.425925926%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:121" data-name="B_3 1" src="assets/Pers/B_3.png" style="left:14.814814815%;top:14.687500000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:136" data-name="G_9 1" src="assets/Pers/G_9.png" style="left:14.074074074%;top:14.843750000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:135" data-name="G_8 2" src="assets/Pers/G_8.png" style="left:14.537037037%;top:14.843750000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:134" data-name="G_7 1" src="assets/Pers/G_7.png" style="left:13.796296296%;top:15.156250000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:133" data-name="G_6 1" src="assets/Pers/G_6.png" style="left:13.796296296%;top:14.739583333%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:132" data-name="G_5 1" src="assets/Pers/G_5.png" style="left:13.518518519%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:131" data-name="G_4 2" src="assets/Pers/G_4.png" style="left:15.740740741%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:130" data-name="G_3 1" src="assets/Pers/G_3.png" style="left:12.222222222%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:129" data-name="G_2 1" src="assets/Pers/G_2.png" style="left:23.333333333%;top:12.447916667%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
-<img class="layer" data-screen="profile" data-id="9:128" data-name="G_1 1" src="assets/Pers/G_1.png" style="left:24.722222222%;top:11.822916667%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="debug-frame" data-src="assets/figma_frames/03_Profile.png" alt="">
+<img class="layer" data-screen="profile" data-id="3:9" data-name="Fon 1" data-src="assets/figma_layers/v03/3_9.png" style="left:0.000000000%;top:0.052083333%;width:100.000000000%;height:99.947916667%;z-index:100" alt="">
+<img class="layer" data-screen="profile" data-id="3:30" data-name="buttonPress 1" data-src="assets/figma_layers/v03/3_30.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:101" alt="">
+<img class="layer" data-screen="profile" data-id="3:31" data-name="btn_primary_normal 1" data-src="assets/figma_layers/v03/3_31.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:102" alt="">
+<img class="layer" data-screen="profile" data-id="48:16" data-profile-banner="1" data-name="Verh_BannerNew 1" data-src="assets/figma_layers/v03/48_16.png" style="left:23.333333333%;top:8.750000000%;width:55.925925926%;height:15.208333333%;z-index:103" alt="">
+<img class="layer" data-screen="profile" data-id="54:29" data-profile-banner="2" data-name="Verh_BannerNew 2" data-src="assets/figma_layers/v03/48_16.png" style="left:25.185185185%;top:6.250000000%;width:55.925925926%;height:15.208333333%;z-index:103" alt="">
+<img class="layer" data-screen="profile" data-id="54:30" data-profile-banner="3" data-name="Verh_BannerNew 3" data-src="assets/figma_layers/v03/48_16.png" style="left:23.703703704%;top:0.833333333%;width:55.925925926%;height:15.208333333%;z-index:103" alt="">
+<img class="layer" data-screen="profile" data-id="6:68" data-name="Пока еще хлюпик" data-src="assets/figma_layers/v03/6_68.png" style="left:26.815555556%;top:50.142083333%;width:49.074074074%;height:2.812500000%;z-index:104" alt="">
+<img class="layer" data-screen="profile" data-id="7:88" data-name="Ещё не понял, зачем люди вообще двигаются." data-src="assets/figma_layers/v03/7_88.png" style="left:23.016296296%;top:54.029166667%;width:53.888888889%;height:4.375000000%;z-index:105" alt="">
+<img class="layer" data-screen="profile" data-id="7:90" data-name="Calendar 1" data-src="assets/figma_layers/v03/7_90.png" style="left:25.370370370%;top:76.614583333%;width:5.370370370%;height:3.125000000%;z-index:106" alt="">
+<img class="layer" data-screen="profile" data-id="6:73" data-name="hint 1" data-src="assets/figma_layers/v03/6_73.png" style="left:17.314814815%;top:74.531250000%;width:66.851851852%;height:7.552083333%;z-index:107" alt="">
+<img class="layer" data-screen="profile" data-id="6:75" data-name="Считается только раз в день" data-src="assets/figma_layers/v03/6_75.png" style="left:31.851851852%;top:77.239583333%;width:44.166666667%;height:2.187500000%;z-index:108" alt="">
+<img class="layer" data-screen="profile" data-id="6:77" data-name="Box_1 1" data-src="assets/figma_layers/v03/6_77.png" style="left:18.333333333%;top:60.052083333%;width:19.351851852%;height:13.802083333%;z-index:109" alt="">
+<img class="layer" data-screen="profile" data-id="6:86" data-name="Box_1 2" data-src="assets/figma_layers/v03/6_86.png" style="left:40.277777778%;top:60.052083333%;width:19.351851852%;height:13.802083333%;z-index:110" alt="">
+<img class="layer" data-screen="profile" data-id="18:12" data-name="ДЕНЬ ЗАСЧИТАН" data-src="assets/figma_layers/v03/18_12.png" style="left:44.092870370%;top:68.313750000%;width:11.666666667%;height:2.447916667%;z-index:111" alt="">
+<img class="layer" data-screen="profile" data-id="6:87" data-name="Box_1 3" data-src="assets/figma_layers/v03/6_87.png" style="left:62.222222222%;top:60.052083333%;width:19.444444444%;height:13.802083333%;z-index:112" alt="">
+<img class="layer" data-screen="profile" data-id="18:14" data-name="5" data-src="assets/figma_layers/v03/18_14.png" style="left:70.556296296%;top:66.998333333%;width:2.870370370%;height:2.395833333%;z-index:113" alt="">
+<img class="layer" data-screen="profile" data-id="18:15" data-name="заморозок" data-src="assets/figma_layers/v03/18_15.png" style="left:67.114814815%;top:70.204166667%;width:10.740740741%;height:0.937500000%;z-index:114" alt="">
+<img class="layer" data-screen="profile" data-id="6:84" data-name="Игорь" data-src="assets/figma_layers/v03/6_84.png" style="left:41.260000000%;top:13.111093750%;width:19.444444444%;height:4.739583333%;z-index:115" alt="">
+<img class="layer" data-screen="profile" data-id="7:91" data-name="Fire 1" data-src="assets/figma_layers/v03/7_91.png" style="left:23.333333333%;top:61.770833333%;width:8.518518519%;height:5.572916667%;z-index:116" alt="">
+<img class="layer" data-screen="profile" data-id="7:92" data-name="V_none 1" data-src="assets/figma_layers/v03/7_92.png" style="left:44.166666667%;top:62.812500000%;width:9.814814815%;height:4.947916667%;z-index:117" alt="">
+<img class="layer" data-screen="profile" data-id="7:93" data-name="V_Ok 1" data-src="assets/figma_layers/v03/7_93.png" style="left:44.166666667%;top:62.812500000%;width:9.814814815%;height:4.947916667%;z-index:118" alt="">
+<img class="layer" data-screen="profile" data-id="7:100" data-name="PlaskaLebvel 1" data-src="assets/figma_layers/v03/7_100.png" style="left:19.907407407%;top:43.489583333%;width:63.240740741%;height:6.041666667%;z-index:119" alt="">
+<img class="layer" data-screen="profile" data-id="7:99" data-name="Froze 1" data-src="assets/figma_layers/v03/7_99.png" style="left:67.407407407%;top:61.770833333%;width:9.074074074%;height:4.583333333%;z-index:120" alt="">
+<img class="layer" data-screen="profile" data-id="17:8" data-name="5" data-src="assets/figma_layers/v03/17_8.png" style="left:26.111851852%;top:67.362916667%;width:2.870370370%;height:2.395833333%;z-index:121" alt="">
+<img class="layer" data-screen="profile" data-id="18:10" data-name="дней подряд" data-src="assets/figma_layers/v03/18_10.png" style="left:20.882222222%;top:70.403333333%;width:13.240740741%;height:1.197916667%;z-index:122" alt="">
+<img class="layer" data-screen="profile" data-id="9:120" data-name="B_2 1" data-src="assets/figma_layers/v03/9_120.png" style="left:25.370370370%;top:13.281250000%;width:52.037037037%;height:29.322916667%;z-index:130" alt="">
+<img class="layer" data-screen="profile" data-id="9:119" data-name="B_1 1" data-src="assets/figma_layers/v03/9_119.png" style="left:25.370370370%;top:12.395833333%;width:52.037037037%;height:29.322916667%;z-index:131" alt="">
+<img class="layer" data-screen="profile" data-id="9:127" data-name="B_9 1" data-src="assets/Pers/B_9.png" style="left:14.259259259%;top:15.156250000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:126" data-name="B_8 1" data-src="assets/Pers/B_8.png" style="left:14.259259259%;top:15.416666667%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:125" data-name="B_7 1" data-src="assets/Pers/B_7.png" style="left:13.611111111%;top:15.156250000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:124" data-name="B_6 1" data-src="assets/Pers/B_6.png" style="left:13.611111111%;top:14.843750000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:123" data-name="B_5 1" data-src="assets/Pers/B_5.png" style="left:13.611111111%;top:15.052083333%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:122" data-name="B_4 2" data-src="assets/Pers/B_4.png" style="left:13.425925926%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:121" data-name="B_3 1" data-src="assets/Pers/B_3.png" style="left:14.814814815%;top:14.687500000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:136" data-name="G_9 1" data-src="assets/Pers/G_9.png" style="left:14.074074074%;top:14.843750000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:135" data-name="G_8 2" data-src="assets/Pers/G_8.png" style="left:14.537037037%;top:14.843750000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:134" data-name="G_7 1" data-src="assets/Pers/G_7.png" style="left:13.796296296%;top:15.156250000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:133" data-name="G_6 1" data-src="assets/Pers/G_6.png" style="left:13.796296296%;top:14.739583333%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:132" data-name="G_5 1" data-src="assets/Pers/G_5.png" style="left:13.518518519%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:131" data-name="G_4 2" data-src="assets/Pers/G_4.png" style="left:15.740740741%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:130" data-name="G_3 1" data-src="assets/Pers/G_3.png" style="left:12.222222222%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:129" data-name="G_2 1" data-src="assets/Pers/G_2.png" style="left:23.333333333%;top:12.447916667%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:128" data-name="G_1 1" data-src="assets/Pers/G_1.png" style="left:24.722222222%;top:11.822916667%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
 <canvas class="layer" data-screen="profile" id="profileCharCanvas" style="z-index:132"></canvas>
-<img class="layer" data-screen="profile" data-id="12:154" data-name="Ур. 1" src="assets/figma_layers/v03/12_154.png" style="left:29.028148148%;top:45.508125000%;width:6.851851852%;height:1.718750000%;z-index:141" alt="">
-<img class="layer" data-screen="profile" data-id="12:156" data-name="0/330" src="assets/figma_layers/v03/12_156.png" style="left:68.648518519%;top:45.599166667%;width:9.444444444%;height:1.510416667%;z-index:142" alt="">
-<img class="layer" data-screen="profile" data-id="10:143" data-name="Back 1" src="assets/figma_layers/v03/10_143.png" style="left:3.981481481%;top:1.979166667%;width:11.759259259%;height:5.937500000%;z-index:143" alt="">
-<img class="layer" data-screen="profile" data-id="10:144" data-name="Setting 1" src="assets/figma_layers/v03/10_144.png" style="left:84.722222222%;top:1.979166667%;width:11.759259259%;height:5.937500000%;z-index:144" alt="">
-<img class="layer" data-screen="profile" data-id="10:145" data-name="Vopros 1" src="assets/figma_layers/v03/10_145.png" style="left:84.722222222%;top:90.468750000%;width:11.111111111%;height:5.989583333%;z-index:145" alt="">
-<img class="layer" data-screen="profile" data-id="10:146" data-name="Present 1" src="assets/figma_layers/v03/10_146.png" style="left:5.648148148%;top:90.052083333%;width:11.666666667%;height:6.406250000%;z-index:146" alt="">
-<img class="layer" data-screen="profile" data-id="5:63" data-name="SpeedLine1 5" src="assets/figma_layers/v03/5_63.png" style="left:11.944444444%;top:85.781250000%;width:7.685185185%;height:6.718750000%;z-index:147" alt="">
-<img class="layer" data-screen="profile" data-id="5:64" data-name="SpeedLine1 6" src="assets/figma_layers/v03/5_64.png" style="left:79.629629630%;top:86.197916667%;width:9.166666667%;height:7.083333333%;z-index:148" alt="">
-<img class="layer" data-screen="profile" data-id="12:150" data-name="XP 1" src="assets/figma_layers/v03/12_150.png" style="left:21.851851852%;top:44.739583333%;width:5.740740741%;height:3.229166667%;z-index:149" alt="">
-<img class="layer" data-screen="profile" data-id="14:165" data-name="ForSkals 1" src="assets/figma_layers/v03/14_165.png" style="left:38.425925926%;top:45.468750000%;width:27.777777778%;height:1.718750000%;z-index:150" alt="">
-<img class="layer" data-screen="profile" data-id="14:193" data-name="Skala_1 1" src="assets/figma_layers/v03/14_193.png" style="left:38.611111111%;top:45.572916667%;width:0.833333333%;height:1.510416667%;z-index:151" alt="">
-<img class="layer" data-screen="profile" data-id="14:194" data-name="Skala_1 2" src="assets/figma_layers/v03/14_194.png" style="left:39.444444444%;top:45.572916667%;width:0.833333333%;height:1.510416667%;z-index:152" alt="">
+<img class="layer" data-screen="profile" data-id="12:154" data-name="Ур. 1" data-src="assets/figma_layers/v03/12_154.png" style="left:29.028148148%;top:45.508125000%;width:6.851851852%;height:1.718750000%;z-index:141" alt="">
+<img class="layer" data-screen="profile" data-id="12:156" data-name="0/330" data-src="assets/figma_layers/v03/12_156.png" style="left:68.648518519%;top:45.599166667%;width:9.444444444%;height:1.510416667%;z-index:142" alt="">
+<img class="layer" data-screen="profile" data-id="10:143" data-name="Back 1" data-src="assets/figma_layers/v03/10_143.png" style="left:3.981481481%;top:1.979166667%;width:11.759259259%;height:5.937500000%;z-index:143" alt="">
+<img class="layer" data-screen="profile" data-id="10:144" data-name="Setting 1" data-src="assets/figma_layers/v03/10_144.png" style="left:84.722222222%;top:1.979166667%;width:11.759259259%;height:5.937500000%;z-index:144" alt="">
+<img class="layer" data-screen="profile" data-id="10:145" data-name="Vopros 1" data-src="assets/figma_layers/v03/10_145.png" style="left:84.722222222%;top:90.468750000%;width:11.111111111%;height:5.989583333%;z-index:145" alt="">
+<img class="layer" data-screen="profile" data-id="10:146" data-name="Present 1" data-src="assets/figma_layers/v03/10_146.png" style="left:5.648148148%;top:90.052083333%;width:11.666666667%;height:6.406250000%;z-index:146" alt="">
+<img class="layer" data-screen="profile" data-id="5:63" data-name="SpeedLine1 5" data-src="assets/figma_layers/v03/5_63.png" style="left:11.944444444%;top:85.781250000%;width:7.685185185%;height:6.718750000%;z-index:147" alt="">
+<img class="layer" data-screen="profile" data-id="5:64" data-name="SpeedLine1 6" data-src="assets/figma_layers/v03/5_64.png" style="left:79.629629630%;top:86.197916667%;width:9.166666667%;height:7.083333333%;z-index:148" alt="">
+<img class="layer" data-screen="profile" data-id="12:150" data-name="XP 1" data-src="assets/figma_layers/v03/12_150.png" style="left:21.851851852%;top:44.739583333%;width:5.740740741%;height:3.229166667%;z-index:149" alt="">
+<img class="layer" data-screen="profile" data-id="14:165" data-name="ForSkals 1" data-src="assets/figma_layers/v03/14_165.png" style="left:38.425925926%;top:45.468750000%;width:27.777777778%;height:1.718750000%;z-index:150" alt="">
+<img class="layer" data-screen="profile" data-id="14:193" data-name="Skala_1 1" data-src="assets/figma_layers/v03/14_193.png" style="left:38.611111111%;top:45.572916667%;width:0.833333333%;height:1.510416667%;z-index:151" alt="">
+<img class="layer" data-screen="profile" data-id="14:194" data-name="Skala_1 2" data-src="assets/figma_layers/v03/14_194.png" style="left:39.444444444%;top:45.572916667%;width:0.833333333%;height:1.510416667%;z-index:152" alt="">
 <div id="progressSegments" data-screen="profile"></div>
-<img class="layer" data-screen="profile" data-id="48:17" data-name="Cat_1 1" src="assets/Cat/Cat_1.png" style="left:31.137129630%;top:-0.330312500%;width:32.587222222%;height:18.634479167%;z-index:153" alt="">
-<img class="layer" data-screen="profile" data-id="48:18" data-name="Cat_2 1" src="assets/Cat/Cat_2.png" style="left:31.851759259%;top:-2.343750000%;width:31.954444444%;height:18.161614583%;z-index:154" alt="">
-<img class="layer" data-screen="profile" data-id="48:19" data-name="Cat_3 1" src="assets/Cat/Cat_3.png" style="left:51.398888889%;top:25.327447917%;width:33.384259259%;height:19.059062500%;z-index:155" alt="">
-<img class="layer" data-screen="profile" data-id="48:20" data-name="Cat_4 1" src="assets/Cat/Cat_4.png" style="left:49.166666667%;top:26.458333333%;width:32.592592593%;height:18.593750000%;z-index:156" alt="">
-<img class="layer" data-screen="profile" data-id="48:21" data-name="Cat_5 1" src="assets/Cat/Cat_5.png" style="left:52.734000000%;top:26.761770833%;width:31.287777778%;height:17.853489583%;z-index:157" alt="">
-<img class="layer" data-screen="profile" data-id="48:22" data-name="Cat_6 1" src="assets/Cat/Cat_6.png" style="left:49.444444444%;top:24.635416667%;width:35.092592593%;height:20.104166667%;z-index:158" alt="">
-<img class="layer" data-screen="profile" data-id="48:25" data-name="Cat_9 1" src="assets/Cat/Cat_9.png" style="left:55.925925926%;top:26.510416667%;width:31.287777778%;height:17.853489583%;z-index:159" alt="">
-<img class="layer" data-screen="profile" data-id="48:23" data-name="Cat_7 1" src="assets/Cat/Cat_7.png" style="left:51.759259259%;top:26.093750000%;width:32.314814815%;height:18.489583333%;z-index:160" alt="">
-<img class="layer" data-screen="profile" data-id="48:24" data-name="Cat_8 1" src="assets/Cat/Cat_8.png" style="left:52.314814815%;top:25.364583333%;width:33.703703704%;height:19.270833333%;z-index:161" alt="">
+<img class="layer" data-screen="profile" data-id="48:17" data-name="Cat_1 1" data-src="assets/Cat/Cat_1.png" style="left:31.137129630%;top:-0.330312500%;width:32.587222222%;height:18.634479167%;z-index:153" alt="">
+<img class="layer" data-screen="profile" data-id="48:18" data-name="Cat_2 1" data-src="assets/Cat/Cat_2.png" style="left:31.851759259%;top:-2.343750000%;width:31.954444444%;height:18.161614583%;z-index:154" alt="">
+<img class="layer" data-screen="profile" data-id="48:19" data-name="Cat_3 1" data-src="assets/Cat/Cat_3.png" style="left:51.398888889%;top:25.327447917%;width:33.384259259%;height:19.059062500%;z-index:155" alt="">
+<img class="layer" data-screen="profile" data-id="48:20" data-name="Cat_4 1" data-src="assets/Cat/Cat_4.png" style="left:49.166666667%;top:26.458333333%;width:32.592592593%;height:18.593750000%;z-index:156" alt="">
+<img class="layer" data-screen="profile" data-id="48:21" data-name="Cat_5 1" data-src="assets/Cat/Cat_5.png" style="left:52.734000000%;top:26.761770833%;width:31.287777778%;height:17.853489583%;z-index:157" alt="">
+<img class="layer" data-screen="profile" data-id="48:22" data-name="Cat_6 1" data-src="assets/Cat/Cat_6.png" style="left:49.444444444%;top:24.635416667%;width:35.092592593%;height:20.104166667%;z-index:158" alt="">
+<img class="layer" data-screen="profile" data-id="48:25" data-name="Cat_9 1" data-src="assets/Cat/Cat_9.png" style="left:55.925925926%;top:26.510416667%;width:31.287777778%;height:17.853489583%;z-index:159" alt="">
+<img class="layer" data-screen="profile" data-id="48:23" data-name="Cat_7 1" data-src="assets/Cat/Cat_7.png" style="left:51.759259259%;top:26.093750000%;width:32.314814815%;height:18.489583333%;z-index:160" alt="">
+<img class="layer" data-screen="profile" data-id="48:24" data-name="Cat_8 1" data-src="assets/Cat/Cat_8.png" style="left:52.314814815%;top:25.364583333%;width:33.703703704%;height:19.270833333%;z-index:161" alt="">
 <canvas class="layer" data-screen="profile" id="profileCatCanvas" style="z-index:162"></canvas>
 <button class="hit" id="freezeBtn" style="left:62.222222222%;top:60.052083333%;width:19.444444444%;height:13.802083333%" aria-label="freeze"></button>
 <button class="hit" id="backBtn" style="left:3.981481481%;top:1.979166667%;width:11.759259259%;height:5.937500000%" aria-label="?????"></button>
@@ -486,7 +485,25 @@ function fit(){
   document.documentElement.scrollTop=0;document.body.scrollTop=0;
   requestAnimationFrame(()=>{try{syncCenteredBlocks();syncProfileName(Math.max(1,Math.min(9,state.stage||1)))}catch(e){}});
 }
-function show(name){Object.entries(screens).forEach(([k,el])=>el.classList.toggle('active',k===name))}
+function loadScreenAssets(name){
+  const screen=document.getElementById(`screen-${name}`);
+  if(!screen||screen.dataset.assetsLoaded==='1')return;
+  screen.querySelectorAll('img[data-src]').forEach(img=>{
+    img.src=versioned(img.dataset.src);
+    img.removeAttribute('data-src');
+  });
+  screen.dataset.assetsLoaded='1';
+}
+function warmNextScreens(){
+  const warm=()=>{loadScreenAssets('create');setTimeout(()=>loadScreenAssets('profile'),900)};
+  if('requestIdleCallback' in window)requestIdleCallback(warm,{timeout:1600});
+  else setTimeout(warm,800);
+}
+function show(name){
+  loadScreenAssets(name);
+  Object.entries(screens).forEach(([k,el])=>el.classList.toggle('active',k===name));
+  requestAnimationFrame(fit);
+}
 function save(){localStorage.setItem('fv_lang',state.lang);localStorage.setItem('fv_hide',String(state.hide));localStorage.setItem('fv_character',state.character);localStorage.setItem('fv_color',state.color);localStorage.setItem('fv_name',state.name);localStorage.setItem('fv_stage',String(state.stage));localStorage.setItem('fv_xp',String(state.xp));localStorage.setItem('fv_day_done',String(state.dayDone));localStorage.setItem('fv_streak',String(state.streak));localStorage.setItem('fv_freezes',String(state.freezes))}
 function clampProgress(){
   state.stage=Math.max(1,Math.min(progression.maxStage,Number(state.stage)||1));
@@ -801,7 +818,7 @@ if(debugMode){
   document.getElementById('debugLevel')?.addEventListener('click',addLevel);
   document.getElementById('debugReset')?.addEventListener('click',resetProgress);
 }
-fit();requestAnimationFrame(fit);setTimeout(fit,120);sync();startClockBlink();const initial=new URLSearchParams(location.search).get('screen');if(initial&&screens[initial])show(initial);
+fit();requestAnimationFrame(fit);setTimeout(fit,120);sync();startClockBlink();const initial=new URLSearchParams(location.search).get('screen');if(initial&&screens[initial])show(initial);else warmNextScreens();
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 }
