@@ -12,6 +12,9 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preload" as="image" href="assets/HelpScreen/HelpFon.png">
+<link rel="preload" as="image" href="assets/HelpScreen/Btn_Strelka.png">
+<link rel="preload" as="image" href="assets/HelpScreen/Btn_Close.png">
 <title>FitVoice</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&display=swap');
@@ -85,6 +88,23 @@ button:focus,input:focus{outline:0}
 .hit{position:absolute;z-index:10000;background:rgba(255,255,255,0)}
 .debug-frame{position:absolute;inset:0;width:100%;height:100%;display:none;opacity:.35;pointer-events:none;z-index:9999}
 #nameInput{position:absolute;z-index:10001;left:18.611111%;top:61.041667%;width:51.851852%;height:3.020833%;border:0;outline:0;background:transparent;color:#111;font:400 min(4.444444cqw,5.208333cqh)/1.2 "Balsamiq Sans", Arial, sans-serif}
+.helpOverlay{position:fixed;inset:0;z-index:70000;display:flex;align-items:center;justify-content:center;padding:calc(var(--safe-top) + 18px) calc(var(--safe-right) + 18px) calc(var(--safe-bottom) + 18px) calc(var(--safe-left) + 18px);background:rgba(0,0,0,.58)}
+.helpOverlay.hidden{display:none}
+.helpCard{position:relative;container-type:size;width:min(88vw,calc((var(--app-vh) - var(--safe-top) - var(--safe-bottom) - 36px) * .58));aspect-ratio:955/1536;max-height:calc(var(--app-vh) - var(--safe-top) - var(--safe-bottom) - 36px);font-family:"Balsamiq Sans",Arial,sans-serif;color:#211812}
+.helpFrame{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none}
+.helpCat{position:absolute;left:20%;top:4.5%;width:60%;height:auto;pointer-events:none}
+.helpPageTitle{position:absolute;left:11%;top:25%;width:78%;text-align:center;font-weight:700;font-size:min(7.2cqw,4.05cqh);line-height:1.06}
+.helpPageBody{position:absolute;left:13%;top:34%;width:74%;text-align:center;font-weight:700;font-size:min(4.35cqw,2.45cqh);line-height:1.18}
+.helpIconRow{position:absolute;left:13%;right:13%;top:56%;display:flex;align-items:flex-start;justify-content:space-around}
+.helpIconBlock{display:flex;flex-direction:column;align-items:center;gap:min(2.2cqw,1.25cqh);width:28%;text-align:center;font-weight:700;font-size:min(3.25cqw,1.83cqh);line-height:1.12}
+.helpIconBlock img{width:min(13cqw,7.3cqh);height:min(13cqw,7.3cqh);object-fit:contain}
+.helpNavBtn{position:absolute;bottom:5.4%;width:min(19cqw,10.7cqh);height:min(9.6cqw,5.4cqh);border:0;background:transparent;padding:0;z-index:2}
+.helpNavBtn img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
+.helpPrev{left:25%}
+.helpNext{right:25%;transform:scaleX(-1)}
+.helpClose{position:absolute;right:8.5%;top:5.7%;width:min(11cqw,6.2cqh);height:min(11cqw,6.2cqh);border:0;background:transparent;padding:0;z-index:3}
+.helpClose img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
+.helpNavBtn.hidden,.helpClose.hidden,.helpCat.hidden,.helpIconBlock.hidden{display:none}
 </style>
 </head>
 <body>
@@ -270,6 +290,23 @@ button:focus,input:focus{outline:0}
 <div class="buttonText" id="profileButtonText">ТРЕНИРОВКА</div>
 </div></div></section>
 </div>
+<div class="helpOverlay hidden" id="helpOverlay" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+  <div class="helpCard">
+    <img class="helpFrame" src="assets/HelpScreen/HelpFon.png" alt="">
+    <img class="helpCat" id="helpCatOk" src="assets/HelpScreen/Cat_Ok.png" alt="">
+    <img class="helpCat hidden" id="helpCatLove" src="assets/HelpScreen/Cat_Love.png" alt="">
+    <button class="helpClose hidden" id="helpCloseBtn" type="button" aria-label="Close"><img src="assets/HelpScreen/Btn_Close.png" alt=""></button>
+    <div class="helpPageTitle" id="helpTitle"></div>
+    <div class="helpPageBody" id="helpBody"></div>
+    <div class="helpIconRow">
+      <div class="helpIconBlock" id="helpIconA"><img src="assets/HelpScreen/Icon_Rupor.png" alt=""><span></span></div>
+      <div class="helpIconBlock" id="helpIconB"><img src="assets/HelpScreen/Icon_Talk.png" alt=""><span></span></div>
+      <div class="helpIconBlock" id="helpIconC"><img src="assets/HelpScreen/Icon_Hart.png" alt=""><span></span></div>
+    </div>
+    <button class="helpNavBtn helpPrev hidden" id="helpPrevBtn" type="button" aria-label="Previous"><img src="assets/HelpScreen/Btn_Strelka.png" alt=""></button>
+    <button class="helpNavBtn helpNext" id="helpNextBtn" type="button" aria-label="Next"><img src="assets/HelpScreen/Btn_Strelka.png" alt=""></button>
+  </div>
+</div>
 <div id="debugPanel">
   <button id="debugAdd">+ exercise</button>
   <button id="debugNextDay">next day</button>
@@ -319,6 +356,16 @@ const ids={
 const labels={
   ru:{continue:'\u041f\u0420\u041e\u0414\u041e\u041b\u0416\u0418\u0422\u042c',later:'\u041c\u043e\u0436\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0437\u0436\u0435',hide:'\u041d\u0435 \u043f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u0442\u044c \u0431\u043e\u043b\u044c\u0448\u0435',start:'\u0421\u0422\u0410\u0420\u0422',profileTitle:'\u041f\u043e\u043a\u0430 \u0435\u0449\u0435 \u0445\u043b\u044e\u043f\u0438\u043a',profileBody:'\u0415\u0449\u0451 \u043d\u0435 \u043f\u043e\u043d\u044f\u043b,<br>\u0437\u0430\u0447\u0435\u043c \u043b\u044e\u0434\u0438 \u0432\u043e\u043e\u0431\u0449\u0435 \u0434\u0432\u0438\u0433\u0430\u044e\u0442\u0441\u044f.',level:'\u0423\u0440. 1',dayDone:'\u0414\u0415\u041d\u042c<br>\u0417\u0410\u0421\u0427\u0418\u0422\u0410\u041d',dayNot:'\u0414\u0415\u041d\u042c<br>\u041d\u0415 \u0417\u0410\u0421\u0427\u0418\u0422\u0410\u041d',streak:'\u0434\u043d\u0435\u0439 \u043f\u043e\u0434\u0440\u044f\u0434',freeze:'\u0437\u0430\u043c\u043e\u0440\u043e\u0437\u043e\u043a',counted:'\u0421\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u0440\u0430\u0437 \u0432 \u0434\u0435\u043d\u044c'},
   en:{continue:'CONTINUE',later:'You can change this later',hide:'Do not show again',start:'START',profileTitle:'Still a rookie',profileBody:'Still not sure<br>why people move at all.',level:'Lvl. 1',dayDone:'DAY<br>COUNTED',dayNot:'DAY<br>NOT COUNTED',streak:'days in row',freeze:'freezes',counted:'Counts only once per day'}
+};
+const helpPages={
+  ru:[
+    {cat:'ok',title:'\u041a\u0430\u043a \u044d\u0442\u043e \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442',body:'\u0421\u043e\u0431\u0435\u0440\u0438 \u0441\u0432\u043e\u0435\u0433\u043e \u0433\u0435\u0440\u043e\u044f \u0438 \u043d\u0430\u0447\u0438\u043d\u0430\u0439 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u044b\u0435 \u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0438. \u041f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0431\u0443\u0434\u0435\u0442 \u0441\u0447\u0438\u0442\u0430\u0442\u044c \u0442\u0432\u043e\u0439 \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441.',icons:[['Icon_Rupor.png','\u0421\u043b\u0443\u0448\u0430\u0439'],['Icon_Talk.png','\u041f\u043e\u0432\u0442\u043e\u0440\u044f\u0439'],['Icon_Hart.png','\u0420\u0430\u0441\u0442\u0438']]},
+    {cat:'love',title:'\u0422\u0440\u0435\u043d\u0438\u0440\u0443\u0439\u0441\u044f \u0440\u0435\u0433\u0443\u043b\u044f\u0440\u043d\u043e',body:'\u0417\u0430 \u0432\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u043d\u044b\u0439 \u0434\u0435\u043d\u044c \u0440\u0430\u0441\u0442\u0435\u0442 \u043e\u043f\u044b\u0442 \u0438 \u0441\u0435\u0440\u0438\u044f. \u0417\u0430\u043c\u043e\u0440\u043e\u0437\u043a\u0438 \u043f\u043e\u043c\u043e\u0433\u0443\u0442 \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0440\u0438\u0442\u043c.',icons:[['Icon_Cantel.png','\u0422\u0440\u0435\u043d\u0438\u0440\u0443\u0439'],['Icon_Sheld.png','\u0411\u0435\u0440\u0435\u0433\u0438 \u0441\u0435\u0440\u0438\u044e'],['Icon_Hart.png','\u041f\u043e\u043b\u0443\u0447\u0430\u0439 XP']]}
+  ],
+  en:[
+    {cat:'ok',title:'How it works',body:'Build your hero and start voice workouts. The app will track your daily progress.',icons:[['Icon_Rupor.png','Listen'],['Icon_Talk.png','Repeat'],['Icon_Hart.png','Grow']]},
+    {cat:'love',title:'Train regularly',body:'A completed day grows your XP and streak. Freezes help keep the rhythm when you miss a day.',icons:[['Icon_Cantel.png','Train'],['Icon_Sheld.png','Protect streak'],['Icon_Hart.png','Earn XP']]}
+  ]
 };
 const colors={red:[231,76,60],orange:[242,140,24],yellow:[241,196,15],green:[106,201,67],blue:[36,151,216],purple:[142,68,173]};
 const assetVersion='v27';
@@ -519,6 +566,36 @@ function show(name){
   loadScreenAssets(name);
   Object.entries(screens).forEach(([k,el])=>el.classList.toggle('active',k===name));
   requestAnimationFrame(fit);
+}
+let helpPage=0;
+function renderHelp(){
+  const page=(helpPages[state.lang]||helpPages.ru)[helpPage];
+  if(!page)return;
+  document.getElementById('helpTitle').textContent=page.title;
+  document.getElementById('helpBody').textContent=page.body;
+  document.getElementById('helpCatOk').classList.toggle('hidden',page.cat!=='ok');
+  document.getElementById('helpCatLove').classList.toggle('hidden',page.cat!=='love');
+  ['A','B','C'].forEach((key,i)=>{
+    const block=document.getElementById(`helpIcon${key}`);
+    const item=page.icons[i];
+    block.classList.toggle('hidden',!item);
+    if(item){
+      block.querySelector('img').src=`assets/HelpScreen/${item[0]}`;
+      block.querySelector('span').textContent=item[1];
+    }
+  });
+  document.getElementById('helpPrevBtn').classList.toggle('hidden',helpPage===0);
+  document.getElementById('helpNextBtn').classList.toggle('hidden',helpPage>=(helpPages[state.lang]||helpPages.ru).length-1);
+  document.getElementById('helpCloseBtn').classList.toggle('hidden',helpPage<1);
+}
+function openHelp(){
+  helpPage=0;
+  renderHelp();
+  document.getElementById('helpOverlay').classList.remove('hidden');
+}
+function closeHelp(){
+  document.getElementById('helpOverlay').classList.add('hidden');
+  show('create');
 }
 function save(){localStorage.setItem('fv_lang',state.lang);localStorage.setItem('fv_hide',String(state.hide));localStorage.setItem('fv_character',state.character);localStorage.setItem('fv_color',state.color);localStorage.setItem('fv_name',state.name);localStorage.setItem('fv_stage',String(state.stage));localStorage.setItem('fv_xp',String(state.xp));localStorage.setItem('fv_day_done',String(state.dayDone));localStorage.setItem('fv_streak',String(state.streak));localStorage.setItem('fv_freezes',String(state.freezes))}
 function clampProgress(){
@@ -815,7 +892,10 @@ window.visualViewport?.addEventListener('scroll',fit);
 document.querySelectorAll('[data-lang]').forEach(btn=>btn.addEventListener('click',()=>{state.lang=btn.dataset.lang;save();sync();pressClock();pulse({speed:state.lang==='ru'?['5:8','5:9']:['5:10','5:11']})}));
 document.getElementById('hideToggle')?.addEventListener('click',()=>{state.hide=!state.hide;save();sync()});
 document.getElementById('continueBtn')?.addEventListener('pointerdown',()=>pulse({press:ids.language.buttonPress,normal:ids.language.buttonNormal,text:state.lang==='en'?'#languageButtonText':ids.language.buttonText,speed:['5:12','5:13']},240));
-document.getElementById('continueBtn')?.addEventListener('click',()=>show('create'));
+document.getElementById('continueBtn')?.addEventListener('click',openHelp);
+document.getElementById('helpNextBtn')?.addEventListener('click',()=>{helpPage=Math.min(helpPage+1,(helpPages[state.lang]||helpPages.ru).length-1);renderHelp()});
+document.getElementById('helpPrevBtn')?.addEventListener('click',()=>{helpPage=Math.max(helpPage-1,0);renderHelp()});
+document.getElementById('helpCloseBtn')?.addEventListener('click',closeHelp);
 document.getElementById('boyPick')?.addEventListener('click',()=>{state.character='boy';save();sync();pulseCatLike()});
 document.getElementById('girlPick')?.addEventListener('click',()=>{state.character='girl';save();sync();pulseCatLike()});
 document.querySelectorAll('.colorPick').forEach(btn=>btn.addEventListener('click',()=>{state.color=btn.dataset.color;save();sync();pulseCatLike()}));
