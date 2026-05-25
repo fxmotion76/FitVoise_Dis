@@ -1,0 +1,17 @@
+SCREEN_V42 PRODUCTION ASSET STRUCTURE
+
+One index.html.
+One semantic asset tree.
+No screen-based duplicate backgrounds.
+
+/assets/backgrounds/bg_main.png  — single shared background for all screens
+/assets/buttons/                 — reusable buttons
+/assets/cards/                   — language cards
+/assets/icons/                   — flags, checkbox, stopwatch, speedline, pencil
+/assets/panels/                  — title/hint/top panels
+/assets/inputs/                  — input frame
+/assets/characters/              — character parts
+/assets/color_buttons/           — outfit color buttons
+
+Removed semantic duplicate: start/bg.png.
+Kept one high-res bg_main.png from Fon.png.

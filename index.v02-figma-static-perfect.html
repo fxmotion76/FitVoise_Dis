@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FitVoice Figma Exact Test</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111}
+button{position:absolute;margin:0;padding:0;border:0;background:transparent;cursor:pointer}
+#app{position:fixed;inset:0;overflow:hidden;background:#111}
+.screen{position:absolute;inset:0;opacity:0;pointer-events:none}
+.screen.active{opacity:1;pointer-events:auto}
+.fit{position:absolute;left:50%;top:50%;width:1080px;height:1920px;transform-origin:center center;overflow:hidden;background:#f3eadc}
+.figma-frame{position:absolute;inset:0;width:1080px;height:1920px;display:block}
+</style>
+</head>
+<body>
+<div id="app">
+  <section class="screen active" id="language">
+    <div class="fit">
+      <img class="figma-frame" src="assets/figma_frames/01_Language.png" alt="">
+      <button id="toCreate" style="left:153px;top:1616px;width:760px;height:210px" aria-label="Продолжить"></button>
+    </div>
+  </section>
+
+  <section class="screen" id="create">
+    <div class="fit">
+      <img class="figma-frame" src="assets/figma_frames/02_CreateCharacter.png" alt="">
+      <button id="toProfile" style="left:153px;top:1616px;width:760px;height:210px" aria-label="Далее"></button>
+    </div>
+  </section>
+
+  <section class="screen" id="profile">
+    <div class="fit">
+      <img class="figma-frame" src="assets/figma_frames/03_Profile.png" alt="">
+      <button id="backToCreate" style="left:43px;top:38px;width:127px;height:114px" aria-label="Назад"></button>
+    </div>
+  </section>
+</div>
+<script>
+const screens={language:document.getElementById('language'),create:document.getElementById('create'),profile:document.getElementById('profile')};
+function fit(){
+  const scale=Math.min(window.innerWidth/1080,window.innerHeight/1920);
+  document.querySelectorAll('.fit').forEach(el=>el.style.transform=`translate(-50%,-50%) scale(${scale})`);
+}
+function show(name){
+  Object.entries(screens).forEach(([key,el])=>el.classList.toggle('active',key===name));
+}
+window.addEventListener('resize',fit);
+window.addEventListener('orientationchange',fit);
+document.getElementById('toCreate').addEventListener('click',()=>show('create'));
+document.getElementById('toProfile').addEventListener('click',()=>show('profile'));
+document.getElementById('backToCreate').addEventListener('click',()=>show('create'));
+fit();
+const initial=new URLSearchParams(location.search).get('screen');
+if(initial && screens[initial])show(initial);
+</script>
+</body>
+</html>

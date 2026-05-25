@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FitVoice</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&family=PT+Sans+Narrow:wght@700&display=swap');
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#121212}
+body{font-family:"Balsamiq Sans","Comic Sans MS","Trebuchet MS",Arial,sans-serif}
+button,input{font:inherit}
+button{border:0;margin:0;padding:0;background:transparent;color:inherit;cursor:pointer}
+img{display:block}
+
+#app{position:fixed;inset:0;overflow:hidden;background:#121212}
+.screen{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .18s ease}
+.screen.active{opacity:1;pointer-events:auto}
+.fit{position:absolute;left:50%;top:50%;width:1080px;height:1920px;transform-origin:center center;overflow:hidden}
+.stage{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden;background:#f3eadc}
+.node{position:absolute;display:block;user-select:none}
+.node img{width:100%;height:100%;object-fit:fill}
+.node canvas{width:100%;height:100%;display:block}
+.text{position:absolute;margin:0;color:#17120d;white-space:pre-wrap;display:flex;align-items:flex-start;justify-content:flex-start;letter-spacing:0;text-align:left}
+.center{text-align:center;justify-content:center}
+.pt{font-family:"PT Sans Narrow","Arial Narrow",Arial,sans-serif;font-weight:700}
+.balsamiq{font-family:"Balsamiq Sans","Comic Sans MS","Trebuchet MS",Arial,sans-serif}
+.white-stroke{color:#fff;text-shadow:-2px -2px 0 #17120d,2px -2px 0 #17120d,-2px 2px 0 #17120d,2px 2px 0 #17120d}
+.orange{color:#e48a23}
+.control{position:absolute;z-index:200;background:rgba(255,255,255,0);border:0}
+.hidden{display:none!important}
+.fit-input{position:absolute;z-index:210;border:0;outline:0;background:transparent;color:#17120d;font-family:"Balsamiq Sans","Comic Sans MS","Trebuchet MS",Arial,sans-serif;font-size:48px;line-height:58px;font-weight:400}
+.fit-input::placeholder{color:rgba(23,18,13,.55)}
+</style>
+</head>
+<body>
+<div id="app">
+  <section class="screen active" id="startScreen">
+    <div class="fit">
+      <main class="stage">
+        <span class="node" style="left:0px;top:1px;width:1080px;height:1919px"><img src="assets/Fon.png" alt=""></span>
+        <span class="node hidden" id="startPress" style="left:153px;top:1616px;width:760px;height:210px"><img src="assets/buttonPress.png" alt=""></span>
+        <span class="node" id="startNormal" style="left:153px;top:1616px;width:760px;height:210px"><img src="assets/buttonClear.png" alt=""></span>
+        <span class="text balsamiq white-stroke" style="left:314px;top:1674px;width:451px;height:77px;font-size:64px;line-height:76.8px;font-weight:700">ПРОДОЛЖИТЬ</span>
+        <span class="text balsamiq" style="left:349px;top:1509px;width:431px;height:48px;font-size:40px;line-height:48px;font-weight:400">Не показывать больше</span>
+        <span class="node" style="left:210px;top:104px;width:643px;height:281px"><img src="assets/title.png" alt=""></span>
+        <span class="node stopwatch-layer" style="left:586px;top:49px;width:299px;height:302px"><img src="assets/stopwatch2.png" alt=""></span>
+        <span class="node stopwatch-layer" style="left:586px;top:49px;width:299px;height:302px"><img src="assets/stopwatch_m.png" alt=""></span>
+        <span class="node stopwatch-layer" style="left:586px;top:48px;width:299px;height:302px"><img src="assets/stopwatch.png" alt=""></span>
+        <span class="node" style="left:290px;top:698px;width:526px;height:263px"><img src="assets/card.png" alt=""></span>
+        <span class="node" style="left:287px;top:959px;width:526px;height:263px"><img src="assets/card2.png" alt=""></span>
+        <span class="node" style="left:291px;top:698px;width:525px;height:263px"><img src="assets/card_press.png" alt=""></span>
+        <span class="node" style="left:287px;top:958px;width:525px;height:263px"><img src="assets/card2_press.png" alt=""></span>
+        <span class="text pt white-stroke" style="left:493px;top:790px;width:287px;height:69px;font-size:64px;line-height:82.7456px">РУССКИЙ</span>
+        <span class="text pt white-stroke" style="left:481px;top:1044px;width:287px;height:69px;font-size:64px;line-height:82.7456px"> ENGLISH</span>
+        <span class="node" id="checkboxOff" style="left:287px;top:1509px;width:51px;height:52px"><img src="assets/checkbox_off.png" alt=""></span>
+        <span class="node" id="checkboxOn" style="left:287px;top:1509px;width:51px;height:51px"><img src="assets/checkbox_on.png" alt=""></span>
+        <span class="node" style="left:354px;top:1039px;width:112px;height:91px"><img src="assets/flag_en.png" alt=""></span>
+        <span class="node" style="left:354px;top:781px;width:112px;height:96px"><img src="assets/flag_ru.png" alt=""></span>
+        <span class="node" style="left:179px;top:1314px;width:722px;height:145px"><img src="assets/hint.png" alt=""></span>
+        <span class="node" style="left:263px;top:1356px;width:53px;height:61px"><img src="assets/Lampa.png" alt=""></span>
+        <span class="text balsamiq orange" style="left:349px;top:1363px;width:434px;height:48px;font-size:40px;line-height:48px;font-weight:400">Можно изменить позже</span>
+        <span class="node fx" style="left:206px;top:757px;width:77px;height:121px"><img src="assets/SpeedLine1.png" alt=""></span>
+        <span class="node fx" style="left:201px;top:1013px;width:77px;height:121px"><img src="assets/SpeedLine1.png" alt=""></span>
+        <span class="node fx" style="left:129px;top:1647px;width:82px;height:129px"><img src="assets/SpeedLine1.png" alt=""></span>
+        <span class="node fx" style="left:816px;top:764px;width:92px;height:127px"><img src="assets/SpeedLine1.png" alt=""></span>
+        <span class="node fx" style="left:811px;top:1019px;width:92px;height:127px"><img src="assets/SpeedLine1.png" alt=""></span>
+        <span class="node fx" style="left:860px;top:1655px;width:98px;height:136px"><img src="assets/SpeedLine1.png" alt=""></span>
+        <span class="node" id="sloganEn" style="left:132px;top:244px;width:808px;height:461px"><img src="assets/Sligan_Eng.png" alt=""></span>
+        <span class="node hidden" id="sloganRu" style="left:170px;top:311px;width:707px;height:385px"><img src="assets/Sligan_RUS.png" alt=""></span>
+
+        <button class="control" data-lang="ru" style="left:287px;top:698px;width:529px;height:263px" aria-label="Русский"></button>
+        <button class="control" data-lang="en" style="left:287px;top:958px;width:526px;height:264px" aria-label="English"></button>
+        <button class="control" id="hideToggle" style="left:287px;top:1503px;width:500px;height:64px" aria-label="Не показывать больше"></button>
+        <button class="control" id="continueBtn" style="left:153px;top:1616px;width:760px;height:210px" aria-label="Продолжить"></button>
+      </main>
+    </div>
+  </section>
+
+  <section class="screen" id="createScreen">
+    <div class="fit">
+      <main class="stage">
+        <span class="node" style="left:0px;top:1px;width:1080px;height:1919px"><img src="assets/Fon.png" alt=""></span>
+        <span class="node hidden" id="createPress" style="left:153px;top:1616px;width:760px;height:210px"><img src="assets/buttonPress.png" alt=""></span>
+        <span class="node" id="createNormal" style="left:153px;top:1616px;width:760px;height:210px"><img src="assets/buttonClear.png" alt=""></span>
+        <span class="node" style="left:171px;top:1154px;width:733px;height:111px"><img src="assets/CreatePers/Enter_Name.png" alt=""></span>
+        <span class="text balsamiq" id="placeholderName" style="left:201px;top:1172px;width:286px;height:58px;font-size:48px;line-height:57.6px;font-weight:400">Введите имя</span>
+        <input class="fit-input" id="nameInput" maxlength="18" autocomplete="off" style="left:201px;top:1172px;width:580px;height:58px">
+        <span class="node" style="left:812px;top:1173px;width:53px;height:56px"><img src="assets/CreatePers/Pencel.png" alt=""></span>
+        <span class="node" id="boyNormal" style="left:57px;top:545px;width:569px;height:569px"><img src="assets/Pers/B_4.png" alt=""></span>
+        <span class="node" id="boyActive" style="left:24px;top:545px;width:569px;height:569px"><img src="assets/Pers/B_8_Start.png" alt=""></span>
+        <span class="node" id="girlNormal" style="left:484px;top:545px;width:569px;height:569px"><img src="assets/Pers/G_4.png" alt=""></span>
+        <span class="node" id="girlActive" style="left:470px;top:545px;width:569px;height:569px"><img src="assets/Pers/G_8.png" alt=""></span>
+        <span class="node" id="selectionCheck" style="left:430px;top:542px;width:70px;height:70px"><img src="assets/GalkaVibor.png" alt=""></span>
+        <span class="node color-state blue norm" style="left:161px;top:1286px;width:126px;height:111px"><img src="assets/color_buttons/color_blue_norm.png" alt=""></span>
+        <span class="node color-state blue press" style="left:161px;top:1286px;width:126px;height:111px"><img src="assets/color_buttons/color_blue_press.png" alt=""></span>
+        <span class="node color-state green norm" style="left:287px;top:1286px;width:125px;height:111px"><img src="assets/color_buttons/color_green_norm.png" alt=""></span>
+        <span class="node color-state green press" style="left:287px;top:1286px;width:125px;height:111px"><img src="assets/color_buttons/color_green_press.png" alt=""></span>
+        <span class="node color-state orange norm" style="left:418px;top:1287px;width:125px;height:111px"><img src="assets/color_buttons/color_orange_norm.png" alt=""></span>
+        <span class="node color-state orange press" style="left:418px;top:1285px;width:125px;height:111px"><img src="assets/color_buttons/color_orange_press.png" alt=""></span>
+        <span class="node color-state purple norm" style="left:769px;top:1284px;width:125px;height:111px"><img src="assets/color_buttons/color_purple_norm.png" alt=""></span>
+        <span class="node color-state purple press" style="left:769px;top:1282px;width:125px;height:111px"><img src="assets/color_buttons/color_purple_press.png" alt=""></span>
+        <span class="node color-state red norm" style="left:544px;top:1284px;width:125px;height:111px"><img src="assets/color_buttons/color_red_norm.png" alt=""></span>
+        <span class="node color-state red press" style="left:544px;top:1284px;width:125px;height:111px"><img src="assets/color_buttons/color_red_press.png" alt=""></span>
+        <span class="node color-state yellow norm" style="left:659px;top:1284px;width:126px;height:111px"><img src="assets/color_buttons/color_yellow_norm.png" alt=""></span>
+        <span class="node color-state yellow press" style="left:660px;top:1286px;width:125px;height:111px"><img src="assets/color_buttons/color_yellow_press.png" alt=""></span>
+        <span class="node" style="left:129px;top:1647px;width:82px;height:129px"><img src="assets/SpeedLine1.png" alt=""></span>
+        <span class="node" style="left:860px;top:1655px;width:98px;height:136px"><img src="assets/SpeedLine1.png" alt=""></span>
+        <span class="node" style="left:195px;top:126px;width:676px;height:246px"><img src="assets/CreatePers/Verh_Banner.png" alt=""></span>
+        <span class="text balsamiq center" style="left:389px;top:204px;width:277px;height:108px;font-size:64px;line-height:76.8px;font-weight:700">КТО ТЫ?</span>
+        <span class="node" style="left:179px;top:1424px;width:722px;height:145px"><img src="assets/hint.png" alt=""></span>
+        <span class="node" style="left:263px;top:1466px;width:53px;height:61px"><img src="assets/Lampa.png" alt=""></span>
+        <span class="text balsamiq orange" style="left:349px;top:1473px;width:440px;height:48px;font-size:40px;line-height:48px;font-weight:400">Можно изменить позже</span>
+        <span class="text balsamiq white-stroke" style="left:392px;top:1674px;width:300px;height:77px;font-size:64px;line-height:76.8px;font-weight:700">ДАЛЕЕ</span>
+
+        <button class="control" id="boyPick" style="left:24px;top:545px;width:569px;height:569px" aria-label="Выбрать мальчика"></button>
+        <button class="control" id="girlPick" style="left:470px;top:545px;width:569px;height:569px" aria-label="Выбрать девочку"></button>
+        <button class="control colorPick" data-color="blue" style="left:161px;top:1282px;width:126px;height:116px" aria-label="Синий"></button>
+        <button class="control colorPick" data-color="green" style="left:287px;top:1282px;width:125px;height:116px" aria-label="Зеленый"></button>
+        <button class="control colorPick" data-color="orange" style="left:418px;top:1282px;width:125px;height:116px" aria-label="Оранжевый"></button>
+        <button class="control colorPick" data-color="red" style="left:544px;top:1282px;width:125px;height:116px" aria-label="Красный"></button>
+        <button class="control colorPick" data-color="yellow" style="left:659px;top:1282px;width:126px;height:116px" aria-label="Желтый"></button>
+        <button class="control colorPick" data-color="purple" style="left:769px;top:1282px;width:125px;height:116px" aria-label="Фиолетовый"></button>
+        <button class="control" id="nextBtn" style="left:153px;top:1616px;width:760px;height:210px" aria-label="Далее"></button>
+      </main>
+    </div>
+  </section>
+
+  <section class="screen" id="profileScreen">
+    <div class="fit">
+      <main class="stage">
+        <span class="node" style="left:0px;top:1px;width:1080px;height:1919px"><img src="assets/Fon.png" alt=""></span>
+        <span class="node hidden" id="profilePress" style="left:153px;top:1616px;width:760px;height:210px"><img src="assets/buttonPress.png" alt=""></span>
+        <span class="node" id="profileNormal" style="left:153px;top:1616px;width:760px;height:210px"><img src="assets/buttonClear.png" alt=""></span>
+        <span class="text balsamiq center" style="left:285px;top:951px;width:534px;height:77px;font-size:64px;line-height:76.8px;font-weight:700">Пока еще хлюпик</span>
+        <span class="text balsamiq center" style="left:247px;top:1030px;width:585px;height:96px;font-size:40px;line-height:48px;font-weight:400">Ещё не понял,
+зачем люди вообще двигаются.</span>
+        <span class="node" style="left:274px;top:1471px;width:58px;height:60px"><img src="assets/PersLevel/Calendar.png" alt=""></span>
+        <span class="node" style="left:187px;top:1431px;width:722px;height:145px"><img src="assets/hint.png" alt=""></span>
+        <span class="text balsamiq orange" style="left:362px;top:1482px;width:436px;height:38px;font-size:32px;line-height:38.4px;font-weight:700">Считается только раз в день</span>
+        <span class="node" style="left:198px;top:1153px;width:209px;height:265px"><img src="assets/PersLevel/Box_1.png" alt=""></span>
+        <span class="node" style="left:435px;top:1153px;width:209px;height:265px"><img src="assets/PersLevel/Box_1.png" alt=""></span>
+        <span class="text balsamiq center" style="left:475px;top:1307px;width:129px;height:58px;font-size:24px;line-height:28.8px;font-weight:700">ДЕНЬ ЗАСЧИТАН</span>
+        <span class="node" style="left:672px;top:1153px;width:210px;height:265px"><img src="assets/PersLevel/Box_1.png" alt=""></span>
+        <span class="text balsamiq" style="left:759px;top:1274px;width:37px;height:77px;font-size:64px;line-height:76.8px;font-weight:400">5</span>
+        <span class="text balsamiq" style="left:724px;top:1339px;width:117px;height:29px;font-size:24px;line-height:28.8px;font-weight:400">заморозок</span>
+        <span class="node" style="left:213px;top:157px;width:677px;height:252px"><img src="assets/CreatePers/Verh_Banner.png" alt=""></span>
+        <span class="text balsamiq center" id="profileName" style="left:442px;top:228px;width:219px;height:117px;font-size:75px;line-height:90px;font-weight:700">Игорь</span>
+        <span class="node" style="left:252px;top:1186px;width:92px;height:107px"><img src="assets/PersLevel/Fire.png" alt=""></span>
+        <span class="node" style="left:477px;top:1186px;width:106px;height:95px"><img src="assets/PersLevel/V_none.png" alt=""></span>
+        <span class="node" style="left:477px;top:1186px;width:106px;height:95px"><img src="assets/PersLevel/V_Ok.png" alt=""></span>
+        <span class="node" style="left:215px;top:835px;width:683px;height:116px"><img src="assets/PersLevel/PlaskaLebvel.png" alt=""></span>
+        <span class="node" style="left:728px;top:1186px;width:98px;height:88px"><img src="assets/PersLevel/Froze.png" alt=""></span>
+        <span class="text balsamiq" style="left:279px;top:1281px;width:37px;height:77px;font-size:64px;line-height:76.8px;font-weight:400">5</span>
+        <span class="text balsamiq" style="left:225px;top:1347px;width:144px;height:29px;font-size:24px;line-height:28.8px;font-weight:400">дней подряд</span>
+        <span class="node profile-char hidden" data-char="B_9" style="left:234px;top:291px;width:562px;height:563px"><img src="assets/Pers/B_9.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="B_8" style="left:234px;top:296px;width:562px;height:563px"><img src="assets/Pers/B_8.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="B_7" style="left:227px;top:291px;width:562px;height:563px"><img src="assets/Pers/B_7.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="B_6" style="left:227px;top:285px;width:562px;height:563px"><img src="assets/Pers/B_6.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="B_5" style="left:227px;top:289px;width:562px;height:563px"><img src="assets/Pers/B_5.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="B_4" style="left:225px;top:297px;width:562px;height:562px"><img src="assets/Pers/B_4.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="B_3" style="left:240px;top:282px;width:562px;height:563px"><img src="assets/Pers/B_3.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="B_2" style="left:274px;top:255px;width:562px;height:563px"><img src="assets/Pers/B_2.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="B_1" style="left:274px;top:238px;width:562px;height:563px"><img src="assets/Pers/B_1.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="G_9" style="left:252px;top:285px;width:562px;height:563px"><img src="assets/Pers/G_9.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="G_8" style="left:257px;top:285px;width:562px;height:563px"><img src="assets/Pers/G_8.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="G_7" style="left:249px;top:291px;width:562px;height:563px"><img src="assets/Pers/G_7.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="G_6" style="left:249px;top:283px;width:562px;height:563px"><img src="assets/Pers/G_6.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="G_5" style="left:246px;top:297px;width:562px;height:562px"><img src="assets/Pers/G_5.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="G_4" style="left:270px;top:297px;width:562px;height:562px"><img src="assets/Pers/G_4.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="G_3" style="left:232px;top:297px;width:562px;height:562px"><img src="assets/Pers/G_3.png" alt=""></span>
+        <span class="node profile-char" data-char="G_2" style="left:252px;top:239px;width:562px;height:562px"><img src="assets/Pers/G_2.png" alt=""></span>
+        <span class="node profile-char hidden" data-char="G_1" style="left:267px;top:227px;width:562px;height:563px"><img src="assets/Pers/G_1.png" alt=""></span>
+        <span class="text balsamiq" style="left:313px;top:868px;width:77px;height:43px;font-size:36px;line-height:43.2px;font-weight:700">Ур. 1</span>
+        <span class="text balsamiq" style="left:740px;top:870px;width:105px;height:43px;font-size:36px;line-height:43.2px;font-weight:700">0/330</span>
+        <span class="node" style="left:43px;top:38px;width:127px;height:114px"><img src="assets/PersLevel/Back.png" alt=""></span>
+        <span class="node" style="left:915px;top:38px;width:127px;height:114px"><img src="assets/PersLevel/Setting.png" alt=""></span>
+        <span class="node" style="left:915px;top:1737px;width:120px;height:115px"><img src="assets/PersLevel/Vopros.png" alt=""></span>
+        <span class="node" style="left:61px;top:1729px;width:126px;height:123px"><img src="assets/PersLevel/Present.png" alt=""></span>
+        <span class="node" style="left:129px;top:1647px;width:82px;height:129px"><img src="assets/SpeedLine1.png" alt=""></span>
+        <span class="node" style="left:860px;top:1655px;width:98px;height:136px"><img src="assets/SpeedLine1.png" alt=""></span>
+        <span class="node" style="left:236px;top:859px;width:62px;height:62px"><img src="assets/PersLevel/XP.png" alt=""></span>
+        <span class="node" style="left:415px;top:873px;width:300px;height:33px"><img src="assets/PersLevel/ForSkals.png" alt=""></span>
+        <span class="node" style="left:417px;top:875px;width:9px;height:29px"><img src="assets/PersLevel/Skala_1.png" alt=""></span>
+        <span class="node" style="left:426px;top:875px;width:9px;height:29px"><img src="assets/PersLevel/Skala_1.png" alt=""></span>
+        <span class="text balsamiq white-stroke" style="left:315px;top:1674px;width:450px;height:77px;font-size:64px;line-height:76.8px;font-weight:700">ТРЕНИРОВКА</span>
+
+        <button class="control" id="backBtn" style="left:43px;top:38px;width:127px;height:114px" aria-label="Назад"></button>
+      </main>
+    </div>
+  </section>
+</div>
+
+<script>
+const screens={
+  start:document.getElementById('startScreen'),
+  create:document.getElementById('createScreen'),
+  profile:document.getElementById('profileScreen')
+};
+const state={lang:localStorage.getItem('fv_lang')||'ru',hide:localStorage.getItem('fv_hide')!=='false',character:localStorage.getItem('fv_character')||'boy',color:localStorage.getItem('fv_color')||'orange',name:localStorage.getItem('fv_name')||''};
+const COLORS={
+  blue:[36,151,216],
+  green:[106,201,67],
+  orange:[242,140,24],
+  red:[231,76,60],
+  yellow:[241,196,15],
+  purple:[142,68,173]
+};
+const recolorNodes=[];
+
+function fit(){
+  const scale=Math.min(window.innerWidth/1080, window.innerHeight/1920);
+  document.querySelectorAll('.fit').forEach(el=>el.style.transform=`translate(-50%,-50%) scale(${scale})`);
+}
+function show(name){
+  Object.entries(screens).forEach(([key,screen])=>screen.classList.toggle('active',key===name));
+}
+function isOrange(r,g,b,a){
+  return a>35 && r>160 && g>45 && g<190 && b<125 && r>g+15 && g>b+4;
+}
+function shaded(target,r,g,b){
+  const lum=.2126*r+.7152*g+.0722*b;
+  const f=Math.max(.5,Math.min(1.35,lum/145));
+  return target.map(v=>Math.max(0,Math.min(255,Math.round(v*f))));
+}
+function setupRecolorNode(el){
+  const img=el.querySelector('img');
+  if(!img)return;
+  const canvas=document.createElement('canvas');
+  const source=new Image();
+  const width=parseInt(el.style.width,10);
+  const height=parseInt(el.style.height,10);
+  canvas.width=width;
+  canvas.height=height;
+  img.style.display='none';
+  el.appendChild(canvas);
+  const item={el,img:source,canvas,width,height,ready:false};
+  source.onload=()=>{item.ready=true;drawRecolorNode(item)};
+  source.src=img.getAttribute('src');
+  recolorNodes.push(item);
+}
+function drawRecolorNode(item){
+  if(!item.ready)return;
+  const ctx=item.canvas.getContext('2d',{willReadFrequently:true});
+  ctx.clearRect(0,0,item.width,item.height);
+  ctx.drawImage(item.img,0,0,item.width,item.height);
+  const data=ctx.getImageData(0,0,item.width,item.height);
+  const pixels=data.data;
+  const target=COLORS[state.color]||COLORS.orange;
+  for(let i=0;i<pixels.length;i+=4){
+    if(isOrange(pixels[i],pixels[i+1],pixels[i+2],pixels[i+3])){
+      const rgb=shaded(target,pixels[i],pixels[i+1],pixels[i+2]);
+      pixels[i]=rgb[0]; pixels[i+1]=rgb[1]; pixels[i+2]=rgb[2];
+    }
+  }
+  ctx.putImageData(data,0,0);
+}
+function redrawCharacters(){
+  recolorNodes.forEach(drawRecolorNode);
+}
+function pressPair(normalId,pressId){
+  const normal=document.getElementById(normalId);
+  const press=document.getElementById(pressId);
+  if(!normal || !press)return;
+  normal.classList.add('hidden');
+  press.classList.remove('hidden');
+  clearTimeout(press._timer);
+  press._timer=setTimeout(()=>{
+    press.classList.add('hidden');
+    normal.classList.remove('hidden');
+  },140);
+}
+function sync(){
+  document.getElementById('checkboxOn').classList.toggle('hidden',!state.hide);
+  document.getElementById('checkboxOff').classList.toggle('hidden',state.hide);
+  document.getElementById('sloganEn').classList.toggle('hidden',state.lang!=='en');
+  document.getElementById('sloganRu').classList.toggle('hidden',state.lang!=='ru');
+  document.getElementById('boyNormal').classList.toggle('hidden',state.character==='boy');
+  document.getElementById('boyActive').classList.toggle('hidden',state.character!=='boy');
+  document.getElementById('girlNormal').classList.toggle('hidden',state.character==='girl');
+  document.getElementById('girlActive').classList.toggle('hidden',state.character!=='girl');
+  const check=document.getElementById('selectionCheck');
+  check.style.left=state.character==='boy'?'430px':'856px';
+  document.querySelectorAll('.color-state').forEach(el=>{
+    const color=[...el.classList].find(c=>['blue','green','orange','red','yellow','purple'].includes(c));
+    el.classList.toggle('hidden',el.classList.contains('press') ? color!==state.color : color===state.color);
+  });
+  document.querySelectorAll('.profile-char').forEach(el=>el.classList.add('hidden'));
+  document.querySelector(`.profile-char[data-char="${state.character==='girl'?'G_2':'B_2'}"]`)?.classList.remove('hidden');
+  const input=document.getElementById('nameInput');
+  input.value=state.name;
+  document.getElementById('placeholderName').classList.toggle('hidden',Boolean(state.name));
+  document.getElementById('profileName').textContent=state.name || 'Игорь';
+  redrawCharacters();
+}
+function save(){
+  localStorage.setItem('fv_lang',state.lang);
+  localStorage.setItem('fv_hide',String(state.hide));
+  localStorage.setItem('fv_character',state.character);
+  localStorage.setItem('fv_color',state.color);
+  localStorage.setItem('fv_name',state.name);
+}
+
+window.addEventListener('resize',fit);
+window.addEventListener('orientationchange',fit);
+document.querySelectorAll('[data-lang]').forEach(btn=>btn.addEventListener('click',()=>{state.lang=btn.dataset.lang;save();sync()}));
+document.getElementById('hideToggle').addEventListener('click',()=>{state.hide=!state.hide;save();sync()});
+document.getElementById('continueBtn').addEventListener('pointerdown',()=>pressPair('startNormal','startPress'));
+document.getElementById('continueBtn').addEventListener('click',()=>show('create'));
+document.getElementById('boyPick').addEventListener('click',()=>{state.character='boy';save();sync()});
+document.getElementById('girlPick').addEventListener('click',()=>{state.character='girl';save();sync()});
+document.querySelectorAll('.colorPick').forEach(btn=>btn.addEventListener('click',()=>{state.color=btn.dataset.color;save();sync()}));
+document.getElementById('nameInput').addEventListener('input',e=>{state.name=e.target.value.trim();save();sync()});
+document.getElementById('nextBtn').addEventListener('pointerdown',()=>pressPair('createNormal','createPress'));
+document.getElementById('nextBtn').addEventListener('click',()=>show('profile'));
+document.getElementById('backBtn').addEventListener('click',()=>show('create'));
+['boyNormal','boyActive','girlNormal','girlActive'].forEach(id=>setupRecolorNode(document.getElementById(id)));
+document.querySelectorAll('.profile-char').forEach(setupRecolorNode);
+fit();
+sync();
+const initialScreen=new URLSearchParams(location.search).get('screen');
+if(initialScreen && screens[initialScreen])show(initialScreen);
+</script>
+</body>
+</html>

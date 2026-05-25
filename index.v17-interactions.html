@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FitVoice v17</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&display=swap');
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111}
+body{font-family:Arial,sans-serif}
+button,input{font:inherit}
+button{position:absolute;margin:0;padding:0;border:0;background:transparent;cursor:pointer;color:inherit}
+button:focus,input:focus{outline:0}
+#app{position:fixed;inset:0;overflow:hidden;background:#111}
+.screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;overflow:hidden}
+.screen.active{opacity:1;pointer-events:auto}
+.fit{position:relative;width:min(100vw,56.25vh);width:min(100vw,56.25svh);height:auto;aspect-ratio:9/16;overflow:hidden;background:#f3eadc}
+.stage{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
+.layer{position:absolute;display:block;user-select:none;pointer-events:none}
+.layer.hidden{display:none!important}
+.layer.nudge{transform:translateY(.7%)}
+.layer.clockTilt{transform-origin:50% 92%;animation:clockPressTilt .26s ease-out}
+@keyframes clockPressTilt{0%{transform:rotate(0deg)}45%{transform:rotate(-7deg)}100%{transform:rotate(0deg)}}
+.langText.inactive{filter:brightness(0) saturate(100%)}
+.buttonText{position:absolute;z-index:10002;left:14.166666667%;top:86.6%;width:70.370370370%;height:5%;display:flex;align-items:center;justify-content:center;pointer-events:none;color:#fff;font:700 min(5.925925vw,3.333333vh)/1 "Balsamiq Sans",Arial,sans-serif;text-shadow:none}
+.buttonText.en{font-size:min(5.35vw,3.01vh);text-shadow:none}
+.buttonText.nudge{transform:translateY(.8%)}
+.profileNameText{position:absolute;z-index:116;left:24.351851852%;top:12.45%;width:55.925925926%;height:5.8%;display:flex;align-items:center;justify-content:center;pointer-events:none;color:#3b332d;font:700 min(6.2vw,3.4875vh)/1 "Balsamiq Sans",Arial,sans-serif;text-align:center;text-shadow:0 1px 0 rgba(255,255,255,.35);transform:rotate(-1.8deg)}
+.profileLiveText{position:absolute;z-index:10002;display:flex;align-items:center;justify-content:center;pointer-events:none;text-align:center;font-family:"Balsamiq Sans",Arial,sans-serif;font-weight:700;line-height:1.05;color:#17130f;text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.profileLiveText.hidden{display:none!important}
+#profileStatusTitle{left:24%;top:50.05%;width:54%;height:3.3%;font-size:min(5.0vw,2.8125vh)}
+#profileStatusBody{left:22%;top:53.75%;width:58%;height:5.1%;font-size:min(3.65vw,2.053125vh);line-height:1.16}
+#levelText{left:29.0%;top:45.35%;width:8.5%;height:2%;font-size:min(3.0vw,1.6875vh)}
+#dayDoneText{left:41.6%;top:68.05%;width:16.8%;height:3.2%;font-size:min(2.35vw,1.321875vh);line-height:.98}
+#streakLabelText{left:20.833333333%;top:70.156250000%;width:13.333333333%;height:1.510416667%;font-size:min(2.222222vw,1.25vh);font-weight:400}
+#freezeLabelText{left:66.481481481%;top:70.052083333%;width:11.759259259%;height:1.614583333%;font-size:min(2.407407vw,1.354167vh);font-weight:400}
+#countedText{left:31.851851852%;top:77.239583333%;width:44.166666667%;height:2.187500000%;font-size:min(3.240741vw,1.822917vh);font-weight:700;color:#f58220;white-space:nowrap}
+.uiText{position:absolute;z-index:10002;display:flex;align-items:center;justify-content:center;pointer-events:none;text-align:center;font-family:"Balsamiq Sans",Arial,sans-serif;font-weight:700;line-height:1;color:#f58220;text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.uiText.hidden{display:none!important}
+.uiText.white{color:#fff;text-shadow:none}
+.uiText.white.en{text-shadow:none}
+#languageButtonText{left:14.166666667%;top:86.55%;width:70.370370370%;height:5.2%;font-size:min(5.6vw,3.15vh)}
+#languageHintText{left:30.833333333%;top:71.197916667%;width:40.185185185%;height:2.500000000%;font-size:min(3.703704vw,2.083333vh);font-weight:400;white-space:nowrap}
+#hideText{left:32%;top:78.35%;width:42%;height:3.2%;justify-content:center;color:#1a140f;font-size:min(4.1vw,2.31vh);white-space:nowrap}
+#hideText.en{left:31.2%;width:42%;justify-content:center}
+#createHintText{left:32.129629630%;top:76.979166667%;width:40.740740741%;height:2.500000000%;font-size:min(3.703704vw,2.083333vh);font-weight:700;white-space:nowrap}
+.hit{position:absolute;z-index:10000;background:rgba(255,255,255,0)}
+.debug-frame{position:absolute;inset:0;width:100%;height:100%;display:none;opacity:.35;pointer-events:none;z-index:9999}
+#nameInput{position:absolute;z-index:10001;left:18.611111%;top:61.041667%;width:51.851852%;height:3.020833%;border:0;outline:0;background:transparent;color:#111;font:400 min(4.444444vw,5.208333vh)/1.2 "Balsamiq Sans", Arial, sans-serif}
+</style>
+</head>
+<body>
+<div id="app">
+<section class="screen active" id="screen-language"><div class="fit"><div class="stage">
+<img class="debug-frame" src="assets/figma_frames/01_Language.png" alt="">
+<img class="layer" data-screen="language" data-id="2:74" data-name="Fon 1" src="assets/figma_layers/v03/2_74.png" style="left:0.000000000%;top:0.052083333%;width:100.000000000%;height:99.947916667%;z-index:100" alt="">
+<img class="layer" data-screen="language" data-id="3:18" data-name="buttonPress 1" src="assets/figma_layers/v03/3_18.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:101" alt="">
+<img class="layer" data-screen="language" data-id="3:19" data-name="btn_primary_normal 1" src="assets/figma_layers/v03/3_19.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:102" alt="">
+<img class="layer" data-screen="language" data-id="3:38" data-name="ПРОДОЛЖИТЬ" src="assets/figma_layers/v03/3_38.png" style="left:29.500740741%;top:87.728333333%;width:41.296296296%;height:2.968750000%;z-index:103" alt="">
+<img class="layer" data-screen="language" data-id="3:53" data-name="Не показывать больше" src="assets/figma_layers/v03/3_53.png" style="left:32.603703704%;top:78.885416667%;width:39.537037037%;height:1.666666667%;z-index:104" alt="">
+<img class="layer" data-screen="language" data-id="3:12" data-name="title 1" src="assets/figma_layers/v03/3_12.png" style="left:19.444444444%;top:5.416666667%;width:59.537037037%;height:14.635416667%;z-index:105" alt="">
+<img class="layer" data-screen="language" data-id="3:15" data-name="stopwatch2 1" src="assets/figma_layers/v03/3_15.png" style="left:54.259259259%;top:2.552083333%;width:27.685185185%;height:15.729166667%;z-index:106" alt="">
+<img class="layer" data-screen="language" data-id="3:14" data-name="stopwatch_m 1" src="assets/figma_layers/v03/3_14.png" style="left:54.259259259%;top:2.552083333%;width:27.685185185%;height:15.729166667%;z-index:107" alt="">
+<img class="layer" data-screen="language" data-id="3:13" data-name="stopwatch 3" src="assets/figma_layers/v03/3_13.png" style="left:54.259259259%;top:2.500000000%;width:27.685185185%;height:15.729166667%;z-index:108" alt="">
+<img class="layer" data-screen="language" data-id="3:41" data-name="card 3" src="assets/figma_layers/v03/3_41.png" style="left:26.851851852%;top:36.354166667%;width:48.703703704%;height:13.697916667%;z-index:109" alt="">
+<img class="layer" data-screen="language" data-id="3:43" data-name="card2 1" src="assets/figma_layers/v03/3_43.png" style="left:26.574074074%;top:49.947916667%;width:48.703703704%;height:13.697916667%;z-index:110" alt="">
+<img class="layer" data-screen="language" data-id="3:42" data-name="card_press 1" src="assets/figma_layers/v03/3_42.png" style="left:26.944444444%;top:36.354166667%;width:48.611111111%;height:13.697916667%;z-index:111" alt="">
+<img class="layer" data-screen="language" data-id="3:44" data-name="card2_press 1" src="assets/figma_layers/v03/3_44.png" style="left:26.574074074%;top:49.895833333%;width:48.611111111%;height:13.697916667%;z-index:112" alt="">
+<img class="layer langText" data-screen="language" data-id="3:45" data-name="РУССКИЙ" src="assets/figma_layers/v03/3_45.png" style="left:45.544444444%;top:41.617916667%;width:20.833333333%;height:3.385416667%;z-index:113" alt="">
+<img class="layer langText" data-screen="language" data-id="3:47" data-name="ENGLISH" src="assets/figma_layers/v03/3_47.png" style="left:45.707870370%;top:55.380416667%;width:18.981481481%;height:2.864583333%;z-index:114" alt="">
+<img class="layer" data-screen="language" data-id="3:49" data-name="checkbox_off 1" src="assets/figma_layers/v03/3_49.png" style="left:26.574074074%;top:78.593750000%;width:4.722222222%;height:2.708333333%;z-index:115" alt="">
+<img class="layer" data-screen="language" data-id="3:50" data-name="checkbox_on 1" src="assets/figma_layers/v03/3_50.png" style="left:26.574074074%;top:78.593750000%;width:4.722222222%;height:2.656250000%;z-index:116" alt="">
+<img class="layer" data-screen="language" data-id="3:55" data-name="flag_en 1" src="assets/figma_layers/v03/3_55.png" style="left:32.777777778%;top:54.114583333%;width:10.370370370%;height:4.739583333%;z-index:117" alt="">
+<img class="layer" data-screen="language" data-id="3:56" data-name="flag_ru 1" src="assets/figma_layers/v03/3_56.png" style="left:32.777777778%;top:40.677083333%;width:10.370370370%;height:5.000000000%;z-index:118" alt="">
+<img class="layer" data-screen="language" data-id="4:70" data-name="hint 1" src="assets/figma_layers/v03/4_70.png" style="left:16.574074074%;top:68.437500000%;width:66.851851852%;height:7.552083333%;z-index:119" alt="">
+<img class="layer" data-screen="language" data-id="3:60" data-name="Lampa 2" src="assets/figma_layers/v03/3_60.png" style="left:24.351851852%;top:70.468750000%;width:4.907407407%;height:3.177083333%;z-index:120" alt="">
+<img class="layer" data-screen="language" data-id="4:71" data-name="Можно изменить позже" src="assets/figma_layers/v03/4_71.png" style="left:30.833333333%;top:71.197916667%;width:40.185185185%;height:2.500000000%;z-index:121" alt="">
+<img class="layer" data-screen="language" data-id="5:8" data-name="SpeedLine1 1" src="assets/figma_layers/v03/5_8.png" style="left:19.045833333%;top:39.435468750%;width:7.222222222%;height:6.302083333%;z-index:122" alt="">
+<img class="layer" data-screen="language" data-id="5:10" data-name="SpeedLine1 3" src="assets/figma_layers/v03/5_10.png" style="left:18.611111111%;top:52.738958333%;width:7.222222222%;height:6.302083333%;z-index:123" alt="">
+<img class="layer" data-screen="language" data-id="5:12" data-name="SpeedLine1 5" src="assets/figma_layers/v03/5_12.png" style="left:11.944444444%;top:85.781250000%;width:7.685185185%;height:6.718750000%;z-index:124" alt="">
+<img class="layer" data-screen="language" data-id="5:9" data-name="SpeedLine1 2" src="assets/figma_layers/v03/5_9.png" style="left:75.563888889%;top:39.777864583%;width:8.611111111%;height:6.666666667%;z-index:125" alt="">
+<img class="layer" data-screen="language" data-id="5:11" data-name="SpeedLine1 4" src="assets/figma_layers/v03/5_11.png" style="left:75.129074074%;top:53.081302083%;width:8.611111111%;height:6.666666667%;z-index:126" alt="">
+<img class="layer" data-screen="language" data-id="5:13" data-name="SpeedLine1 6" src="assets/figma_layers/v03/5_13.png" style="left:79.629629630%;top:86.197916667%;width:9.166666667%;height:7.083333333%;z-index:127" alt="">
+<img class="layer" data-screen="language" data-id="6:66" data-name="Sligan_Eng 1" src="assets/Sligan_Eng.png" style="left:11.666666667%;top:14.895833333%;width:74.816%;height:23.989%;z-index:128" alt="">
+<img class="layer" data-screen="language" data-id="6:67" data-name="Sligan_RUS 1" src="assets/figma_layers/v03/6_67.png" style="left:13.240740741%;top:15.416666667%;width:73.611111111%;height:22.604166667%;z-index:129" alt="">
+<button class="hit" data-lang="ru" style="left:26.574074074%;top:36.354166667%;width:48.981481481%;height:13.697916667%" aria-label="???????"></button>
+<button class="hit" data-lang="en" style="left:26.574074074%;top:49.895833333%;width:48.703703704%;height:13.750000000%" aria-label="English"></button>
+<button class="hit" id="hideToggle" style="left:26.574074074%;top:78.281250000%;width:46.296296296%;height:3.333333333%" aria-label="?? ?????????? ??????"></button>
+<button class="hit" id="continueBtn" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%" aria-label="??????????"></button>
+<div class="uiText white hidden" id="languageButtonText">CONTINUE</div>
+<div class="uiText hidden" id="languageHintText">You can change it later</div>
+<div class="uiText hidden" id="hideText">Не показывать больше</div>
+</div></div></section>
+<section class="screen" id="screen-create"><div class="fit"><div class="stage">
+<img class="debug-frame" src="assets/figma_frames/02_CreateCharacter.png" alt="">
+<img class="layer" data-screen="create" data-id="2:75" data-name="Fon 1" src="assets/figma_layers/v03/2_75.png" style="left:0.000000000%;top:0.052083333%;width:100.000000000%;height:99.947916667%;z-index:100" alt="">
+<img class="layer" data-screen="create" data-id="3:20" data-name="buttonPress 1" src="assets/figma_layers/v03/3_20.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:101" alt="">
+<img class="layer" data-screen="create" data-id="3:21" data-name="btn_primary_normal 1" src="assets/figma_layers/v03/3_21.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:102" alt="">
+<img class="layer" data-screen="create" data-id="5:20" data-name="Enter_Name 1" src="assets/figma_layers/v03/5_20.png" style="left:15.833333333%;top:60.104166667%;width:67.870370370%;height:5.781250000%;z-index:103" alt="">
+<img class="layer" data-screen="create" data-id="7:94" data-name="Введите имя" src="assets/figma_layers/v03/7_94.png" style="left:18.953333333%;top:61.391250000%;width:25.925925926%;height:2.343750000%;z-index:104" alt="">
+<img class="layer" data-screen="create" data-id="5:21" data-name="Pencel 1" src="assets/figma_layers/v03/5_21.png" style="left:75.185185185%;top:61.093750000%;width:4.907407407%;height:2.916666667%;z-index:105" alt="">
+<img class="layer" data-screen="create" data-id="5:22" data-name="B_4 1" src="assets/figma_layers/v03/5_22.png" style="left:5.277777778%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:106" alt="">
+<img class="layer" data-screen="create" data-id="5:23" data-name="B_8_Start 1" src="assets/figma_layers/v03/5_23.png" style="left:2.222222222%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:107" alt="">
+<img class="layer" data-screen="create" data-id="5:24" data-name="G_4 1" src="assets/figma_layers/v03/5_24.png" style="left:44.814814815%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:108" alt="">
+<img class="layer" data-screen="create" data-id="5:25" data-name="G_8 1" src="assets/figma_layers/v03/5_25.png" style="left:43.518518519%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:109" alt="">
+<canvas class="layer" data-screen="create" data-create-char="boyNormal" style="left:5.277777778%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:106"></canvas>
+<canvas class="layer" data-screen="create" data-create-char="boyActive" style="left:2.222222222%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:107"></canvas>
+<canvas class="layer" data-screen="create" data-create-char="girlNormal" style="left:44.814814815%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:108"></canvas>
+<canvas class="layer" data-screen="create" data-create-char="girlActive" style="left:43.518518519%;top:28.385416667%;width:52.685185185%;height:29.635416667%;z-index:109"></canvas>
+<img class="layer" data-screen="create" data-id="5:42" data-name="color_blue_norm 1" src="assets/figma_layers/v03/5_42.png" style="left:14.907407407%;top:66.979166667%;width:11.666666667%;height:5.781250000%;z-index:110" alt="">
+<img class="layer" data-screen="create" data-id="5:43" data-name="color_blue_press 1" src="assets/figma_layers/v03/5_43.png" style="left:14.907407407%;top:66.979166667%;width:11.666666667%;height:5.781250000%;z-index:111" alt="">
+<img class="layer" data-screen="create" data-id="5:44" data-name="color_green_norm 1" src="assets/figma_layers/v03/5_44.png" style="left:26.574074074%;top:66.979166667%;width:11.574074074%;height:5.781250000%;z-index:112" alt="">
+<img class="layer" data-screen="create" data-id="5:45" data-name="color_green_press 1" src="assets/figma_layers/v03/5_45.png" style="left:26.574074074%;top:66.979166667%;width:11.574074074%;height:5.781250000%;z-index:113" alt="">
+<img class="layer" data-screen="create" data-id="5:46" data-name="color_orange_norm 1" src="assets/figma_layers/v03/5_46.png" style="left:38.703703704%;top:67.031250000%;width:11.574074074%;height:5.781250000%;z-index:114" alt="">
+<img class="layer" data-screen="create" data-id="5:47" data-name="color_orange_press 1" src="assets/figma_layers/v03/5_47.png" style="left:38.703703704%;top:66.927083333%;width:11.574074074%;height:5.781250000%;z-index:115" alt="">
+<img class="layer" data-screen="create" data-id="5:48" data-name="color_purple_norm 1" src="assets/figma_layers/v03/5_48.png" style="left:71.203703704%;top:66.875000000%;width:11.574074074%;height:5.781250000%;z-index:116" alt="">
+<img class="layer" data-screen="create" data-id="5:49" data-name="color_purple_press 1" src="assets/figma_layers/v03/5_49.png" style="left:71.203703704%;top:66.770833333%;width:11.574074074%;height:5.781250000%;z-index:117" alt="">
+<img class="layer" data-screen="create" data-id="5:50" data-name="color_red_norm 1" src="assets/figma_layers/v03/5_50.png" style="left:50.370370370%;top:66.875000000%;width:11.574074074%;height:5.781250000%;z-index:118" alt="">
+<img class="layer" data-screen="create" data-id="5:51" data-name="color_red_press 1" src="assets/figma_layers/v03/5_51.png" style="left:50.370370370%;top:66.875000000%;width:11.574074074%;height:5.781250000%;z-index:119" alt="">
+<img class="layer" data-screen="create" data-id="5:52" data-name="color_yellow_norm 1" src="assets/figma_layers/v03/5_52.png" style="left:61.018518519%;top:66.875000000%;width:11.666666667%;height:5.781250000%;z-index:120" alt="">
+<img class="layer" data-screen="create" data-id="5:53" data-name="color_yellow_press 1" src="assets/figma_layers/v03/5_53.png" style="left:61.111111111%;top:66.979166667%;width:11.574074074%;height:5.781250000%;z-index:121" alt="">
+<img class="layer" data-screen="create" data-id="5:60" data-name="SpeedLine1 5" src="assets/figma_layers/v03/5_60.png" style="left:11.944444444%;top:85.781250000%;width:7.685185185%;height:6.718750000%;z-index:122" alt="">
+<img class="layer" data-screen="create" data-id="5:61" data-name="SpeedLine1 6" src="assets/figma_layers/v03/5_61.png" style="left:79.629629630%;top:86.197916667%;width:9.166666667%;height:7.083333333%;z-index:123" alt="">
+<img class="layer" data-screen="create" data-id="9:139" data-name="hint 1" src="assets/figma_layers/v03/9_139.png" style="left:16.574074074%;top:74.166666667%;width:66.851851852%;height:7.552083333%;z-index:124" alt="">
+<img class="layer" data-screen="create" data-id="9:140" data-name="Lampa 2" src="assets/figma_layers/v03/9_140.png" style="left:25.462962963%;top:76.250000000%;width:4.907407407%;height:3.177083333%;z-index:125" alt="">
+<img class="layer" data-screen="create" data-id="9:141" data-name="Можно изменить позже" src="assets/figma_layers/v03/9_141.png" style="left:32.129629630%;top:76.979166667%;width:40.740740741%;height:2.500000000%;z-index:126" alt="">
+<img class="layer" data-screen="create" data-id="48:8" data-name="ChoseCharacter_ENG 1" src="assets/figma_layers/v03/48_8.png" style="left:17.777777778%;top:7.656250000%;width:63.703703704%;height:17.343750000%;z-index:127" alt="">
+<img class="layer" data-screen="create" data-id="48:9" data-name="ChoseCharacter_RUS 1" src="assets/figma_layers/v03/48_9.png" style="left:18.425925926%;top:7.395833333%;width:63.703703704%;height:17.343750000%;z-index:128" alt="">
+<img class="layer" data-screen="create" data-id="48:12" data-name="Styrelka_Boy 1" src="assets/figma_layers/v03/48_12.png" style="left:37.314814815%;top:24.583333333%;width:20.555555556%;height:7.552083333%;z-index:129" alt="">
+<img class="layer" data-screen="create" data-id="48:13" data-name="Styrelka_Gerl 1" src="assets/figma_layers/v03/48_13.png" style="left:40.092592593%;top:24.583333333%;width:20.555555556%;height:7.552083333%;z-index:130" alt="">
+<img class="layer" data-screen="create" data-id="48:14" data-name="Cat_Like_1 1" src="assets/Cat/Cat_Like_1.png" style="left:33.078862008%;top:3.930344567%;width:30.786732421%;height:12.191394365%;z-index:131" alt="">
+<img class="layer" data-screen="create" data-id="48:15" data-name="Cat_Like_2 1" src="assets/Cat/Cat_Like_2.png" style="left:33.078862008%;top:3.878261233%;width:30.786732421%;height:12.191394365%;z-index:132" alt="">
+<canvas class="layer" data-screen="create" data-cat-like="1" style="left:33.078862008%;top:3.930344567%;width:30.786732421%;height:12.191394365%;z-index:131"></canvas>
+<canvas class="layer" data-screen="create" data-cat-like="2" style="left:33.078862008%;top:3.878261233%;width:30.786732421%;height:12.191394365%;z-index:132"></canvas>
+<input id="nameInput" maxlength="18" autocomplete="off">
+<button class="hit" id="boyPick" style="left:2.222222222%;top:28.385416667%;width:52.685185185%;height:29.635416667%" aria-label="??????? ????????"></button>
+<button class="hit" id="girlPick" style="left:43.518518519%;top:28.385416667%;width:52.685185185%;height:29.635416667%" aria-label="??????? ???????"></button>
+<button class="hit colorPick" data-color="blue" style="left:14.907407407%;top:66.770833333%;width:11.666666667%;height:6.041666667%" aria-label="blue"></button>
+<button class="hit colorPick" data-color="green" style="left:26.574074074%;top:66.770833333%;width:11.574074074%;height:6.041666667%" aria-label="green"></button>
+<button class="hit colorPick" data-color="orange" style="left:38.703703704%;top:66.770833333%;width:11.574074074%;height:6.041666667%" aria-label="orange"></button>
+<button class="hit colorPick" data-color="red" style="left:50.370370370%;top:66.770833333%;width:11.574074074%;height:6.041666667%" aria-label="red"></button>
+<button class="hit colorPick" data-color="yellow" style="left:61.018518519%;top:66.770833333%;width:11.666666667%;height:6.041666667%" aria-label="yellow"></button>
+<button class="hit colorPick" data-color="purple" style="left:71.203703704%;top:66.770833333%;width:11.574074074%;height:6.041666667%" aria-label="purple"></button>
+<button class="hit" id="nextBtn" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%" aria-label="?????"></button>
+<div class="uiText hidden" id="createHintText">You can change it later</div>
+<div class="buttonText" id="createButtonText">ДАЛЕЕ</div>
+</div></div></section>
+<section class="screen" id="screen-profile"><div class="fit"><div class="stage">
+<img class="debug-frame" src="assets/figma_frames/03_Profile.png" alt="">
+<img class="layer" data-screen="profile" data-id="3:9" data-name="Fon 1" src="assets/figma_layers/v03/3_9.png" style="left:0.000000000%;top:0.052083333%;width:100.000000000%;height:99.947916667%;z-index:100" alt="">
+<img class="layer" data-screen="profile" data-id="3:30" data-name="buttonPress 1" src="assets/figma_layers/v03/3_30.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:101" alt="">
+<img class="layer" data-screen="profile" data-id="3:31" data-name="btn_primary_normal 1" src="assets/figma_layers/v03/3_31.png" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%;z-index:102" alt="">
+<img class="layer" data-screen="profile" data-id="48:16" data-profile-banner="1" data-name="Verh_BannerNew 1" src="assets/figma_layers/v03/48_16.png" style="left:23.333333333%;top:8.750000000%;width:55.925925926%;height:15.208333333%;z-index:103" alt="">
+<img class="layer" data-screen="profile" data-id="54:29" data-profile-banner="2" data-name="Verh_BannerNew 2" src="assets/figma_layers/v03/48_16.png" style="left:25.185185185%;top:6.250000000%;width:55.925925926%;height:15.208333333%;z-index:103" alt="">
+<img class="layer" data-screen="profile" data-id="54:30" data-profile-banner="3" data-name="Verh_BannerNew 3" src="assets/figma_layers/v03/48_16.png" style="left:23.703703704%;top:0.833333333%;width:55.925925926%;height:15.208333333%;z-index:103" alt="">
+<img class="layer" data-screen="profile" data-id="6:68" data-name="Пока еще хлюпик" src="assets/figma_layers/v03/6_68.png" style="left:26.815555556%;top:50.142083333%;width:49.074074074%;height:2.812500000%;z-index:104" alt="">
+<img class="layer" data-screen="profile" data-id="7:88" data-name="Ещё не понял, зачем люди вообще двигаются." src="assets/figma_layers/v03/7_88.png" style="left:23.016296296%;top:54.029166667%;width:53.888888889%;height:4.375000000%;z-index:105" alt="">
+<img class="layer" data-screen="profile" data-id="7:90" data-name="Calendar 1" src="assets/figma_layers/v03/7_90.png" style="left:25.370370370%;top:76.614583333%;width:5.370370370%;height:3.125000000%;z-index:106" alt="">
+<img class="layer" data-screen="profile" data-id="6:73" data-name="hint 1" src="assets/figma_layers/v03/6_73.png" style="left:17.314814815%;top:74.531250000%;width:66.851851852%;height:7.552083333%;z-index:107" alt="">
+<img class="layer" data-screen="profile" data-id="6:75" data-name="Считается только раз в день" src="assets/figma_layers/v03/6_75.png" style="left:31.851851852%;top:77.239583333%;width:44.166666667%;height:2.187500000%;z-index:108" alt="">
+<img class="layer" data-screen="profile" data-id="6:77" data-name="Box_1 1" src="assets/figma_layers/v03/6_77.png" style="left:18.333333333%;top:60.052083333%;width:19.351851852%;height:13.802083333%;z-index:109" alt="">
+<img class="layer" data-screen="profile" data-id="6:86" data-name="Box_1 2" src="assets/figma_layers/v03/6_86.png" style="left:40.277777778%;top:60.052083333%;width:19.351851852%;height:13.802083333%;z-index:110" alt="">
+<img class="layer" data-screen="profile" data-id="18:12" data-name="ДЕНЬ ЗАСЧИТАН" src="assets/figma_layers/v03/18_12.png" style="left:44.092870370%;top:68.313750000%;width:11.666666667%;height:2.447916667%;z-index:111" alt="">
+<img class="layer" data-screen="profile" data-id="6:87" data-name="Box_1 3" src="assets/figma_layers/v03/6_87.png" style="left:62.222222222%;top:60.052083333%;width:19.444444444%;height:13.802083333%;z-index:112" alt="">
+<img class="layer" data-screen="profile" data-id="18:14" data-name="5" src="assets/figma_layers/v03/18_14.png" style="left:70.556296296%;top:66.998333333%;width:2.870370370%;height:2.395833333%;z-index:113" alt="">
+<img class="layer" data-screen="profile" data-id="18:15" data-name="заморозок" src="assets/figma_layers/v03/18_15.png" style="left:67.114814815%;top:70.204166667%;width:10.740740741%;height:0.937500000%;z-index:114" alt="">
+<img class="layer" data-screen="profile" data-id="6:84" data-name="Игорь" src="assets/figma_layers/v03/6_84.png" style="left:41.260000000%;top:13.111093750%;width:19.444444444%;height:4.739583333%;z-index:115" alt="">
+<img class="layer" data-screen="profile" data-id="7:91" data-name="Fire 1" src="assets/figma_layers/v03/7_91.png" style="left:23.333333333%;top:61.770833333%;width:8.518518519%;height:5.572916667%;z-index:116" alt="">
+<img class="layer" data-screen="profile" data-id="7:92" data-name="V_none 1" src="assets/figma_layers/v03/7_92.png" style="left:44.166666667%;top:61.770833333%;width:9.814814815%;height:4.947916667%;z-index:117" alt="">
+<img class="layer" data-screen="profile" data-id="7:93" data-name="V_Ok 1" src="assets/figma_layers/v03/7_93.png" style="left:44.166666667%;top:61.770833333%;width:9.814814815%;height:4.947916667%;z-index:118" alt="">
+<img class="layer" data-screen="profile" data-id="7:100" data-name="PlaskaLebvel 1" src="assets/figma_layers/v03/7_100.png" style="left:19.907407407%;top:43.489583333%;width:63.240740741%;height:6.041666667%;z-index:119" alt="">
+<img class="layer" data-screen="profile" data-id="7:99" data-name="Froze 1" src="assets/figma_layers/v03/7_99.png" style="left:67.407407407%;top:61.770833333%;width:9.074074074%;height:4.583333333%;z-index:120" alt="">
+<img class="layer" data-screen="profile" data-id="17:8" data-name="5" src="assets/figma_layers/v03/17_8.png" style="left:26.111851852%;top:67.362916667%;width:2.870370370%;height:2.395833333%;z-index:121" alt="">
+<img class="layer" data-screen="profile" data-id="18:10" data-name="дней подряд" src="assets/figma_layers/v03/18_10.png" style="left:20.882222222%;top:70.403333333%;width:13.240740741%;height:1.197916667%;z-index:122" alt="">
+<img class="layer" data-screen="profile" data-id="9:120" data-name="B_2 1" src="assets/figma_layers/v03/9_120.png" style="left:25.370370370%;top:13.281250000%;width:52.037037037%;height:29.322916667%;z-index:130" alt="">
+<img class="layer" data-screen="profile" data-id="9:119" data-name="B_1 1" src="assets/figma_layers/v03/9_119.png" style="left:25.370370370%;top:12.395833333%;width:52.037037037%;height:29.322916667%;z-index:131" alt="">
+<img class="layer" data-screen="profile" data-id="9:127" data-name="B_9 1" src="assets/Pers/B_9.png" style="left:14.259259259%;top:15.156250000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:126" data-name="B_8 1" src="assets/Pers/B_8.png" style="left:14.259259259%;top:15.416666667%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:125" data-name="B_7 1" src="assets/Pers/B_7.png" style="left:13.611111111%;top:15.156250000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:124" data-name="B_6 1" src="assets/Pers/B_6.png" style="left:13.611111111%;top:14.843750000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:123" data-name="B_5 1" src="assets/Pers/B_5.png" style="left:13.611111111%;top:15.052083333%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:122" data-name="B_4 2" src="assets/Pers/B_4.png" style="left:13.425925926%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:121" data-name="B_3 1" src="assets/Pers/B_3.png" style="left:14.814814815%;top:14.687500000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:136" data-name="G_9 1" src="assets/Pers/G_9.png" style="left:14.074074074%;top:14.843750000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:135" data-name="G_8 2" src="assets/Pers/G_8.png" style="left:14.537037037%;top:14.843750000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:134" data-name="G_7 1" src="assets/Pers/G_7.png" style="left:13.796296296%;top:15.156250000%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:133" data-name="G_6 1" src="assets/Pers/G_6.png" style="left:13.796296296%;top:14.739583333%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:132" data-name="G_5 1" src="assets/Pers/G_5.png" style="left:13.518518519%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:131" data-name="G_4 2" src="assets/Pers/G_4.png" style="left:15.740740741%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:130" data-name="G_3 1" src="assets/Pers/G_3.png" style="left:12.222222222%;top:15.468750000%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:129" data-name="G_2 1" src="assets/Pers/G_2.png" style="left:23.333333333%;top:12.447916667%;width:52.037037037%;height:29.270833333%;z-index:132" alt="">
+<img class="layer" data-screen="profile" data-id="9:128" data-name="G_1 1" src="assets/Pers/G_1.png" style="left:24.722222222%;top:11.822916667%;width:52.037037037%;height:29.322916667%;z-index:132" alt="">
+<canvas class="layer" data-screen="profile" id="profileCharCanvas" style="z-index:132"></canvas>
+<img class="layer" data-screen="profile" data-id="12:154" data-name="Ур. 1" src="assets/figma_layers/v03/12_154.png" style="left:29.028148148%;top:45.508125000%;width:6.851851852%;height:1.718750000%;z-index:141" alt="">
+<img class="layer" data-screen="profile" data-id="12:156" data-name="0/330" src="assets/figma_layers/v03/12_156.png" style="left:68.648518519%;top:45.599166667%;width:9.444444444%;height:1.510416667%;z-index:142" alt="">
+<img class="layer" data-screen="profile" data-id="10:143" data-name="Back 1" src="assets/figma_layers/v03/10_143.png" style="left:3.981481481%;top:1.979166667%;width:11.759259259%;height:5.937500000%;z-index:143" alt="">
+<img class="layer" data-screen="profile" data-id="10:144" data-name="Setting 1" src="assets/figma_layers/v03/10_144.png" style="left:84.722222222%;top:1.979166667%;width:11.759259259%;height:5.937500000%;z-index:144" alt="">
+<img class="layer" data-screen="profile" data-id="10:145" data-name="Vopros 1" src="assets/figma_layers/v03/10_145.png" style="left:84.722222222%;top:90.468750000%;width:11.111111111%;height:5.989583333%;z-index:145" alt="">
+<img class="layer" data-screen="profile" data-id="10:146" data-name="Present 1" src="assets/figma_layers/v03/10_146.png" style="left:5.648148148%;top:90.052083333%;width:11.666666667%;height:6.406250000%;z-index:146" alt="">
+<img class="layer" data-screen="profile" data-id="5:63" data-name="SpeedLine1 5" src="assets/figma_layers/v03/5_63.png" style="left:11.944444444%;top:85.781250000%;width:7.685185185%;height:6.718750000%;z-index:147" alt="">
+<img class="layer" data-screen="profile" data-id="5:64" data-name="SpeedLine1 6" src="assets/figma_layers/v03/5_64.png" style="left:79.629629630%;top:86.197916667%;width:9.166666667%;height:7.083333333%;z-index:148" alt="">
+<img class="layer" data-screen="profile" data-id="12:150" data-name="XP 1" src="assets/figma_layers/v03/12_150.png" style="left:21.851851852%;top:44.739583333%;width:5.740740741%;height:3.229166667%;z-index:149" alt="">
+<img class="layer" data-screen="profile" data-id="14:165" data-name="ForSkals 1" src="assets/figma_layers/v03/14_165.png" style="left:38.425925926%;top:45.468750000%;width:27.777777778%;height:1.718750000%;z-index:150" alt="">
+<img class="layer" data-screen="profile" data-id="14:193" data-name="Skala_1 1" src="assets/figma_layers/v03/14_193.png" style="left:38.611111111%;top:45.572916667%;width:0.833333333%;height:1.510416667%;z-index:151" alt="">
+<img class="layer" data-screen="profile" data-id="14:194" data-name="Skala_1 2" src="assets/figma_layers/v03/14_194.png" style="left:39.444444444%;top:45.572916667%;width:0.833333333%;height:1.510416667%;z-index:152" alt="">
+<img class="layer" data-screen="profile" data-id="48:17" data-name="Cat_1 1" src="assets/Cat/Cat_1.png" style="left:31.137129630%;top:-0.330312500%;width:32.587222222%;height:18.634479167%;z-index:153" alt="">
+<img class="layer" data-screen="profile" data-id="48:18" data-name="Cat_2 1" src="assets/Cat/Cat_2.png" style="left:31.851759259%;top:-2.343750000%;width:31.954444444%;height:18.161614583%;z-index:154" alt="">
+<img class="layer" data-screen="profile" data-id="48:19" data-name="Cat_3 1" src="assets/Cat/Cat_3.png" style="left:51.398888889%;top:25.327447917%;width:33.384259259%;height:19.059062500%;z-index:155" alt="">
+<img class="layer" data-screen="profile" data-id="48:20" data-name="Cat_4 1" src="assets/Cat/Cat_4.png" style="left:49.166666667%;top:26.458333333%;width:32.592592593%;height:18.593750000%;z-index:156" alt="">
+<img class="layer" data-screen="profile" data-id="48:21" data-name="Cat_5 1" src="assets/Cat/Cat_5.png" style="left:52.734000000%;top:26.761770833%;width:31.287777778%;height:17.853489583%;z-index:157" alt="">
+<img class="layer" data-screen="profile" data-id="48:22" data-name="Cat_6 1" src="assets/Cat/Cat_6.png" style="left:49.444444444%;top:24.635416667%;width:35.092592593%;height:20.104166667%;z-index:158" alt="">
+<img class="layer" data-screen="profile" data-id="48:25" data-name="Cat_9 1" src="assets/Cat/Cat_9.png" style="left:55.925925926%;top:26.510416667%;width:31.287777778%;height:17.853489583%;z-index:159" alt="">
+<img class="layer" data-screen="profile" data-id="48:23" data-name="Cat_7 1" src="assets/Cat/Cat_7.png" style="left:51.759259259%;top:26.093750000%;width:32.314814815%;height:18.489583333%;z-index:160" alt="">
+<img class="layer" data-screen="profile" data-id="48:24" data-name="Cat_8 1" src="assets/Cat/Cat_8.png" style="left:52.314814815%;top:25.364583333%;width:33.703703704%;height:19.270833333%;z-index:161" alt="">
+<canvas class="layer" data-screen="profile" id="profileCatCanvas" style="z-index:162"></canvas>
+<button class="hit" id="backBtn" style="left:3.981481481%;top:1.979166667%;width:11.759259259%;height:5.937500000%" aria-label="?????"></button>
+<button class="hit" id="trainingBtn" style="left:14.166666667%;top:84.166666667%;width:70.370370370%;height:10.937500000%" aria-label="Тренировка"></button>
+<div class="profileNameText" id="profileNameText">Игорь</div>
+<div class="profileLiveText" id="profileStatusTitle">Пока еще хлюпик</div>
+<div class="profileLiveText" id="profileStatusBody">Ещё не понял,<br>зачем люди вообще двигаются.</div>
+<div class="profileLiveText" id="levelText">Ур. 1</div>
+<div class="profileLiveText" id="dayDoneText">ДЕНЬ<br>ЗАСЧИТАН</div>
+<div class="profileLiveText" id="streakLabelText">дней подряд</div>
+<div class="profileLiveText" id="freezeLabelText">заморозок</div>
+<div class="profileLiveText" id="countedText">Считается только раз в день</div>
+<div class="buttonText" id="profileButtonText">ТРЕНИРОВКА</div>
+</div></div></section>
+</div>
+<script>
+const screens={language:document.getElementById('screen-language'),create:document.getElementById('screen-create'),profile:document.getElementById('screen-profile')};
+const state={lang:localStorage.getItem('fv_lang')||'ru',hide:localStorage.getItem('fv_hide')!=='false',character:localStorage.getItem('fv_character')||'boy',color:localStorage.getItem('fv_color')||'orange',name:localStorage.getItem('fv_name')||'',stage:Number(localStorage.getItem('fv_stage')||1)};
+const ids={
+  language:{
+    buttonPress:'3:18',buttonNormal:'3:19',buttonText:'3:38',
+    ruNormal:'3:41',ruPress:'3:42',enNormal:'3:43',enPress:'3:44',
+    ruText:'3:45',enText:'3:47',
+    checkboxOff:'3:49',checkboxOn:'3:50',
+    clockNormal:'3:13',clockBlink:'3:14',clockPress:'3:15',
+    sloganRu:'6:67',sloganEn:'6:66',
+    speed:['5:8','5:9','5:10','5:11','5:12','5:13']
+  },
+  create:{
+    buttonPress:'3:20',buttonNormal:'3:21',
+    boyNormal:'5:22',boyActive:'5:23',girlNormal:'5:24',girlActive:'5:25',
+    arrowBoy:'48:12',arrowGirl:'48:13',
+    titleRu:'48:9',titleEn:'48:8',
+    catLike1:'48:14',catLike2:'48:15',
+    speed:['5:60','5:61'],
+    color:{
+      blue:{normal:'5:42',press:'5:43'},
+      green:{normal:'5:44',press:'5:45'},
+      orange:{normal:'5:46',press:'5:47'},
+      purple:{normal:'5:48',press:'5:49'},
+      red:{normal:'5:50',press:'5:51'},
+      yellow:{normal:'5:52',press:'5:53'}
+    }
+  },
+  profile:{
+    buttonPress:'3:30',buttonNormal:'3:31',
+    speed:['5:63','5:64'],
+    banners:{1:'48:16',2:'54:29',3:'54:30'},
+    boy:{1:'9:119',2:'9:120',3:'9:121',4:'9:122',5:'9:123',6:'9:124',7:'9:125',8:'9:126',9:'9:127'},
+    girl:{1:'9:128',2:'9:129',3:'9:130',4:'9:131',5:'9:132',6:'9:133',7:'9:134',8:'9:135',9:'9:136'},
+    cat:{1:'48:17',2:'48:18',3:'48:19',4:'48:20',5:'48:21',6:'48:22',7:'48:23',8:'48:24',9:'48:25'}
+  }
+};
+const labels={
+  ru:{continue:'\u041f\u0420\u041e\u0414\u041e\u041b\u0416\u0418\u0422\u042c',later:'\u041c\u043e\u0436\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0437\u0436\u0435',hide:'\u041d\u0435 \u043f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u0442\u044c \u0431\u043e\u043b\u044c\u0448\u0435',start:'\u0421\u0422\u0410\u0420\u0422',profileTitle:'\u041f\u043e\u043a\u0430 \u0435\u0449\u0435 \u0445\u043b\u044e\u043f\u0438\u043a',profileBody:'\u0415\u0449\u0451 \u043d\u0435 \u043f\u043e\u043d\u044f\u043b,<br>\u0437\u0430\u0447\u0435\u043c \u043b\u044e\u0434\u0438 \u0432\u043e\u043e\u0431\u0449\u0435 \u0434\u0432\u0438\u0433\u0430\u044e\u0442\u0441\u044f.',level:'\u0423\u0440. 1',dayDone:'\u0414\u0415\u041d\u042c<br>\u0417\u0410\u0421\u0427\u0418\u0422\u0410\u041d',streak:'\u0434\u043d\u0435\u0439 \u043f\u043e\u0434\u0440\u044f\u0434',freeze:'\u0437\u0430\u043c\u043e\u0440\u043e\u0437\u043e\u043a',counted:'\u0421\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u0440\u0430\u0437 \u0432 \u0434\u0435\u043d\u044c'},
+  en:{continue:'CONTINUE',later:'You can change this later',hide:'Do not show again',start:'START',profileTitle:'Still a rookie',profileBody:'Still not sure<br>why people move at all.',level:'Lvl. 1',dayDone:'DAY<br>COUNTED',streak:'days in row',freeze:'freezes',counted:'Counts only once per day'}
+};
+const colors={red:[231,76,60],orange:[242,140,24],yellow:[241,196,15],green:[106,201,67],blue:[36,151,216],purple:[142,68,173]};
+const assetVersion='v17';
+const createCharImages={
+  boyNormal:loadImage('assets/characters/B_4.png'),
+  boyActive:loadImage('assets/characters/B_8_Start.png'),
+  girlNormal:loadImage('assets/characters/G_4.png'),
+  girlActive:loadImage('assets/characters/G_8.png')
+};
+const createCatImages={
+  1:loadImage('assets/Cat/Cat_Like_1.png',redrawCreateCat),
+  2:loadImage('assets/Cat/Cat_Like_2.png',redrawCreateCat)
+};
+const profileStageData={
+  boy:{
+    1:{src:'assets/Pers/B_1.png',x:25.370370370,y:11.718750000,w:52.037037037,h:29.322916667,px:562,py:563},
+    2:{src:'assets/Pers/B_2.png',x:24.629629630,y:13.802083333,w:52.037037037,h:29.322916667,px:562,py:563},
+    3:{src:'assets/Pers/B_3.png',x:14.259259259,y:14.739583333,w:52.037037037,h:29.322916667,px:562,py:563},
+    4:{src:'assets/Pers/B_4.png',x:15.000000000,y:15.572916667,w:52.037037037,h:29.270833333,px:562,py:562},
+    5:{src:'assets/Pers/B_5.png',x:11.574074074,y:15.000000000,w:52.037037037,h:29.322916667,px:562,py:563},
+    6:{src:'assets/Pers/B_6.png',x:11.574074074,y:15.000000000,w:52.037037037,h:29.322916667,px:562,py:563},
+    7:{src:'assets/Pers/B_7.png',x:11.574074074,y:15.260416667,w:52.037037037,h:29.322916667,px:562,py:563},
+    8:{src:'assets/Pers/B_8.png',x:12.222222222,y:15.520833333,w:52.037037037,h:29.322916667,px:562,py:563},
+    9:{src:'assets/Pers/B_9.png',x:12.222222222,y:15.260416667,w:52.037037037,h:29.322916667,px:562,py:563}
+  },
+  girl:{
+    1:{src:'assets/Pers/G_1.png',x:25.092592593,y:11.093750000,w:52.037037037,h:29.322916667,px:562,py:563},
+    2:{src:'assets/Pers/G_2.png',x:24.166666667,y:12.656250000,w:52.037037037,h:29.270833333,px:562,py:562},
+    3:{src:'assets/Pers/G_3.png',x:12.777777778,y:15.000000000,w:52.037037037,h:29.270833333,px:562,py:562},
+    4:{src:'assets/Pers/G_4.png',x:15.277777778,y:15.208333333,w:52.037037037,h:29.270833333,px:562,py:562},
+    5:{src:'assets/Pers/G_5.png',x:13.055555556,y:15.677083333,w:52.037037037,h:29.270833333,px:562,py:562},
+    6:{src:'assets/Pers/G_6.png',x:13.333333333,y:15.416666667,w:52.037037037,h:29.322916667,px:562,py:563},
+    7:{src:'assets/Pers/G_7.png',x:13.333333333,y:15.416666667,w:52.037037037,h:29.322916667,px:562,py:563},
+    8:{src:'assets/Pers/G_8.png',x:14.074074074,y:15.052083333,w:52.037037037,h:29.322916667,px:562,py:563},
+    9:{src:'assets/Pers/G_9.png',x:13.611111111,y:15.052083333,w:52.037037037,h:29.322916667,px:562,py:563}
+  }
+};
+const profileCatData={
+  1:{src:'assets/Cat/Cat_1.png',x:31.137129630,y:-0.330312500,w:32.587222222,h:18.634479167,px:352,py:358},
+  2:{src:'assets/Cat/Cat_2.png',x:31.851759259,y:-2.343750000,w:31.954444444,h:18.161614583,px:345,py:349},
+  3:{src:'assets/Cat/Cat_3.png',x:51.398888889,y:25.327447917,w:33.384259259,h:19.059062500,px:361,py:366},
+  4:{src:'assets/Cat/Cat_4.png',x:49.166666667,y:26.458333333,w:32.592592593,h:18.593750000,px:352,py:357},
+  5:{src:'assets/Cat/Cat_5.png',x:52.734000000,y:26.761770833,w:31.287777778,h:17.853489583,px:338,py:343},
+  6:{src:'assets/Cat/Cat_6.png',x:49.444444444,y:24.635416667,w:35.092592593,h:20.104166667,px:379,py:386},
+  7:{src:'assets/Cat/Cat_7.png',x:51.759259259,y:26.093750000,w:32.314814815,h:18.489583333,px:349,py:355},
+  8:{src:'assets/Cat/Cat_8.png',x:52.314814815,y:25.364583333,w:33.703703704,h:19.270833333,px:364,py:370},
+  9:{src:'assets/Cat/Cat_9.png',x:55.925925926,y:26.510416667,w:31.287777778,h:17.853489583,px:338,py:343}
+};
+const profileNamePositions={
+  1:{x:28.2,y:14.25,w:47.5,h:4.9},
+  2:{x:30.0,y:11.75,w:47.5,h:4.9},
+  3:{x:28.6,y:6.35,w:47.5,h:4.9}
+};
+const profileCharImages={};
+Object.values(profileStageData).forEach(chain=>Object.values(chain).forEach(item=>profileCharImages[item.src]=loadImage(item.src,drawProfileChar)));
+const profileCatImages={};
+Object.values(profileCatData).forEach(item=>profileCatImages[item.src]=loadImage(item.src,drawProfileCat));
+let canvasTintAvailable=true;
+if(new URLSearchParams(location.search).get('noCanvas')==='1')canvasTintAvailable=false;
+function versioned(src){return src.includes('?')?src:`${src}?${assetVersion}`}
+function loadImage(src,onload=redrawCreateChars){const img=new Image();img.src=versioned(src);img.onload=onload;return img}
+function isOrange(r,g,b,a){if(a<40)return false;const max=Math.max(r,g,b),min=Math.min(r,g,b);return r>165&&g>55&&g<185&&b<115&&r>g+18&&g>b+8&&(max-min)>58}
+function shade(target,r,g,b){const lum=.2126*r+.7152*g+.0722*b;const f=Math.max(.52,Math.min(1.30,lum/145));return [Math.max(0,Math.min(255,Math.round(target[0]*f))),Math.max(0,Math.min(255,Math.round(target[1]*f))),Math.max(0,Math.min(255,Math.round(target[2]*f)))]}
+function drawTinted(canvas,img,w=569,h=569){
+  if(!canvas||!img.complete||!img.naturalWidth)return null;
+  try{
+    const ctx=canvas.getContext('2d',{willReadFrequently:true});
+    canvas.width=w;canvas.height=h;ctx.clearRect(0,0,w,h);ctx.drawImage(img,0,0,w,h);
+    const data=ctx.getImageData(0,0,w,h),p=data.data,target=colors[state.color]||colors.orange;
+    for(let i=0;i<p.length;i+=4){if(isOrange(p[i],p[i+1],p[i+2],p[i+3])){const s=shade(target,p[i],p[i+1],p[i+2]);p[i]=s[0];p[i+1]=s[1];p[i+2]=s[2]}}
+    ctx.putImageData(data,0,0);
+    return true;
+  }catch(e){
+    canvasTintAvailable=false;
+    canvas.classList.add('hidden');
+    return false;
+  }
+}
+function setCreateCanvas(name,visible){const el=document.querySelector(`[data-create-char="${name}"]`);if(el)el.classList.toggle('hidden',!visible)}
+function setCreateOriginals(){
+  setId(ids.create.boyActive,!canvasTintAvailable&&state.character==='boy');
+  setId(ids.create.boyNormal,!canvasTintAvailable&&state.character!=='boy');
+  setId(ids.create.girlActive,!canvasTintAvailable&&state.character==='girl');
+  setId(ids.create.girlNormal,!canvasTintAvailable&&state.character!=='girl');
+}
+function redrawCreateChars(){
+  if(!canvasTintAvailable)return false;
+  let ok=true;
+  Object.entries(createCharImages).forEach(([name,img])=>{if(drawTinted(document.querySelector(`[data-create-char="${name}"]`),img)===false)ok=false});
+  if(!ok){canvasTintAvailable=false;document.querySelectorAll('[data-create-char]').forEach(el=>el.classList.add('hidden'));setCreateOriginals()}
+  return ok;
+}
+function setCatLikeFrame(frame){
+  const catReady=createCatImages[1]?.complete&&createCatImages[1]?.naturalWidth&&createCatImages[2]?.complete&&createCatImages[2]?.naturalWidth;
+  if(canvasTintAvailable&&catReady){
+    setId(ids.create.catLike1,false);
+    setId(ids.create.catLike2,false);
+    document.querySelector('[data-cat-like="1"]')?.classList.toggle('hidden',frame!==1);
+    document.querySelector('[data-cat-like="2"]')?.classList.toggle('hidden',frame!==2);
+  }else{
+    document.querySelectorAll('[data-cat-like]').forEach(el=>el.classList.add('hidden'));
+    setId(ids.create.catLike1,frame===1);
+    setId(ids.create.catLike2,frame===2);
+  }
+}
+function redrawCreateCat(){
+  if(!canvasTintAvailable)return false;
+  let ok=true;
+  Object.entries(createCatImages).forEach(([frame,img])=>{if(drawTinted(document.querySelector(`[data-cat-like="${frame}"]`),img,333,235)===false)ok=false});
+  if(!ok){canvasTintAvailable=false;document.querySelectorAll('[data-cat-like]').forEach(el=>el.classList.add('hidden'))}
+  else setCatLikeFrame(1);
+  return ok;
+}
+function pulseCatLike(){
+  setCatLikeFrame(2);
+  clearTimeout(pulseCatLike.t);
+  pulseCatLike.t=setTimeout(()=>setCatLikeFrame(1),220);
+}
+function drawProfileChar(){
+  const stage=Math.max(1,Math.min(9,state.stage||1));
+  const item=profileStageData[state.character==='girl'?'girl':'boy'][stage];
+  const canvas=document.getElementById('profileCharCanvas');
+  if(!canvas||!item||!canvasTintAvailable)return false;
+  canvas.style.left=item.x+'%';canvas.style.top=item.y+'%';canvas.style.width=item.w+'%';canvas.style.height=item.h+'%';
+  return drawTinted(canvas,profileCharImages[item.src],item.px,item.py);
+}
+function drawProfileCat(){
+  const stage=Math.max(1,Math.min(9,state.stage||1));
+  const item=profileCatData[stage];
+  const canvas=document.getElementById('profileCatCanvas');
+  if(!canvas||!item||!canvasTintAvailable)return false;
+  canvas.style.left=item.x+'%';canvas.style.top=item.y+'%';canvas.style.width=item.w+'%';canvas.style.height=item.h+'%';
+  const ok=drawTinted(canvas,profileCatImages[item.src],item.px,item.py);
+  if(ok){
+    Object.values(ids.profile.cat).forEach(id=>setId(id,false));
+    canvas.classList.remove('hidden');
+  }
+  return ok;
+}
+function syncProfileName(stage){
+  const p=profileNamePositions[Math.min(stage,3)];
+  const el=document.getElementById('profileNameText');
+  if(!p||!el)return;
+  el.style.left=p.x+'%';el.style.top=p.y+'%';el.style.width=p.w+'%';el.style.height=p.h+'%';
+}
+function fit(){document.documentElement.scrollTop=0;document.body.scrollTop=0;}
+function show(name){Object.entries(screens).forEach(([k,el])=>el.classList.toggle('active',k===name))}
+function save(){localStorage.setItem('fv_lang',state.lang);localStorage.setItem('fv_hide',String(state.hide));localStorage.setItem('fv_character',state.character);localStorage.setItem('fv_color',state.color);localStorage.setItem('fv_name',state.name);localStorage.setItem('fv_stage',String(state.stage))}
+function byId(id){return document.querySelector(`.layer[data-id="${id}"]`)}
+function setId(id,visible){const el=byId(id);if(el)el.classList.toggle('hidden',!visible)}
+function setIds(list,visible){list.forEach(id=>setId(id,visible))}
+function pctNumber(value){return Number(String(value||'0').replace('%',''))||0}
+function boxPct(el){
+  if(!el)return null;
+  const s=el.style;
+  return {left:pctNumber(s.left),top:pctNumber(s.top),width:pctNumber(s.width),height:pctNumber(s.height)};
+}
+function applyPct(el,box){
+  if(!el||!box)return;
+  if(box.left!==undefined)el.style.left=box.left+'%';
+  if(box.top!==undefined)el.style.top=box.top+'%';
+  if(box.width!==undefined)el.style.width=box.width+'%';
+  if(box.height!==undefined)el.style.height=box.height+'%';
+}
+function centerIconTextBlock({frameId,iconId,textId,gap=1.2,textWidth,textHeight=2.5,yAdjust=0}){
+  const frame=boxPct(byId(frameId));
+  const iconEl=byId(iconId);
+  const textEl=document.getElementById(textId);
+  const icon=boxPct(iconEl);
+  const text=boxPct(textEl);
+  if(!frame||!icon||!text||!textEl)return;
+  const width=textWidth ?? text.width;
+  const height=textHeight ?? text.height;
+  const groupWidth=icon.width+gap+width;
+  const start=frame.left+(frame.width-groupWidth)/2;
+  applyPct(iconEl,{left:start,top:frame.top+(frame.height-icon.height)/2});
+  applyPct(textEl,{left:start+icon.width+gap,top:frame.top+(frame.height-height)/2+yAdjust,width,height});
+}
+function centerCheckboxTextBlock(){
+  const checkEl=byId(state.hide?ids.language.checkboxOn:ids.language.checkboxOff);
+  const offEl=byId(ids.language.checkboxOff);
+  const onEl=byId(ids.language.checkboxOn);
+  const textEl=document.getElementById('hideText');
+  const check=boxPct(checkEl);
+  const text=boxPct(textEl);
+  if(!check||!text||!textEl)return;
+  const gap=2.35;
+  const width=state.lang==='en'?35.0:42.0;
+  const groupWidth=check.width+gap+width;
+  const start=(100-groupWidth)/2;
+  const top=78.58;
+  [offEl,onEl].forEach(el=>applyPct(el,{left:start,top:top+.09}));
+  applyPct(textEl,{left:start+check.width+gap,top:top,width,height:3.2});
+}
+function syncCenteredBlocks(){
+  centerIconTextBlock({frameId:'4:70',iconId:'3:60',textId:'languageHintText',gap:1.35,textWidth:state.lang==='en'?43.0:40.2,textHeight:2.5,yAdjust:.18});
+  centerIconTextBlock({frameId:'9:139',iconId:'9:140',textId:'createHintText',gap:1.35,textWidth:state.lang==='en'?43.0:40.7,textHeight:2.5,yAdjust:.18});
+  centerIconTextBlock({frameId:'6:73',iconId:'7:90',textId:'countedText',gap:1.35,textWidth:state.lang==='en'?42.0:44.2,textHeight:2.1875,yAdjust:.16});
+  centerCheckboxTextBlock();
+}
+function setClock(mode){
+  setId(ids.language.clockNormal,mode==='normal');
+  setId(ids.language.clockBlink,mode==='blink');
+  setId(ids.language.clockPress,mode==='press');
+}
+function blinkClock(){
+  if(!screens.language.classList.contains('active'))return;
+  setClock('blink');
+  clearTimeout(blinkClock.off);
+  blinkClock.off=setTimeout(()=>setClock('normal'),160);
+}
+function startClockBlink(){
+  clearTimeout(startClockBlink.t);
+  startClockBlink.t=setTimeout(()=>{blinkClock();startClockBlink()},2800+Math.random()*2500);
+}
+function pressClock(){
+  clearTimeout(blinkClock.off);
+  clearTimeout(pressClock.t);
+  setClock('press');
+  const el=byId(ids.language.clockPress);
+  el?.classList.remove('clockTilt');
+  void el?.offsetWidth;
+  el?.classList.add('clockTilt');
+  pressClock.t=setTimeout(()=>{el?.classList.remove('clockTilt');setClock('normal')},260);
+}
+function pulse({press,normal,text,speed=[]},dur=140){
+  if(normal)setId(normal,false);
+  if(press)setId(press,true);
+  if(text)byId(text)?.classList.add('nudge');
+  if(text && typeof text==='string' && text.startsWith('#'))document.querySelector(text)?.classList.add('nudge');
+  setIds(speed,true);
+  clearTimeout(pulse.t);
+  pulse.t=setTimeout(()=>{
+    if(press)setId(press,false);
+    if(normal)setId(normal,true);
+    if(text)byId(text)?.classList.remove('nudge');
+    if(text && typeof text==='string' && text.startsWith('#'))document.querySelector(text)?.classList.remove('nudge');
+    setIds(speed,false);
+  },dur);
+}
+function sync(){
+  const input=document.getElementById('nameInput'); if(input && input.value!==state.name) input.value=state.name;
+  setId(ids.language.buttonPress,false);
+  setId(ids.language.buttonNormal,true);
+  setId(ids.language.ruPress,state.lang==='ru');
+  setId(ids.language.ruNormal,state.lang!=='ru');
+  setId(ids.language.enPress,state.lang==='en');
+  setId(ids.language.enNormal,state.lang!=='en');
+  byId(ids.language.ruText)?.classList.toggle('inactive',state.lang!=='ru');
+  byId(ids.language.enText)?.classList.toggle('inactive',state.lang!=='en');
+  setClock('normal');
+  const l=labels[state.lang]||labels.ru;
+  const english=state.lang==='en';
+  setId(ids.language.buttonText,!english);
+  setId('3:53',false);
+  setId('4:71',false);
+  document.getElementById('languageButtonText').textContent=l.continue;
+  document.getElementById('languageHintText').textContent=l.later;
+  document.getElementById('hideText').textContent=l.hide;
+  document.getElementById('languageButtonText').classList.toggle('hidden',!english);
+  document.getElementById('languageButtonText').classList.toggle('en',english);
+  document.getElementById('languageHintText').classList.toggle('hidden',false);
+  document.getElementById('hideText').classList.toggle('hidden',false);
+  document.getElementById('hideText').classList.toggle('en',english);
+  setId(ids.language.checkboxOn,state.hide);
+  setId(ids.language.checkboxOff,!state.hide);
+  setId(ids.language.sloganRu,state.lang==='ru');
+  setId(ids.language.sloganEn,state.lang==='en');
+  setIds(ids.language.speed,false);
+  document.getElementById('createButtonText').textContent=l.continue;
+  document.getElementById('createButtonText').classList.toggle('en',english);
+  document.getElementById('profileButtonText').textContent=l.start;
+  document.getElementById('profileButtonText').classList.toggle('en',english);
+
+  setId(ids.create.buttonPress,false);
+  setId(ids.create.buttonNormal,true);
+  if(canvasTintAvailable){
+    setId(ids.create.boyActive,false);
+    setId(ids.create.boyNormal,false);
+    setId(ids.create.girlActive,false);
+    setId(ids.create.girlNormal,false);
+    setCreateCanvas('boyActive',state.character==='boy');
+    setCreateCanvas('boyNormal',state.character!=='boy');
+    setCreateCanvas('girlActive',state.character==='girl');
+    setCreateCanvas('girlNormal',state.character!=='girl');
+  }else{
+    document.querySelectorAll('[data-create-char]').forEach(el=>el.classList.add('hidden'));
+    setCreateOriginals();
+  }
+  setId(ids.create.arrowBoy,state.character==='boy');
+  setId(ids.create.arrowGirl,state.character==='girl');
+  setId(ids.create.titleRu,state.lang==='ru');
+  setId(ids.create.titleEn,state.lang==='en');
+  setId('7:94',!state.name);
+  setId('9:141',false);
+  document.getElementById('createHintText').textContent=l.later;
+  document.getElementById('createHintText').classList.toggle('hidden',false);
+  setIds(ids.create.speed,false);
+  Object.entries(ids.create.color).forEach(([color,pair])=>{
+    setId(pair.press,state.color===color);
+    setId(pair.normal,state.color!==color);
+  });
+  redrawCreateChars();
+  redrawCreateCat();
+  setCatLikeFrame(1);
+
+  setId(ids.profile.buttonPress,false);
+  setId(ids.profile.buttonNormal,true);
+  setIds(ids.profile.speed,false);
+  setId('6:84',false);
+  ['18:12','18:10','18:15'].forEach(id=>setId(id,false));
+  ['6:68','7:88','12:154'].forEach(id=>setId(id,!english));
+  setId('6:75',false);
+  document.getElementById('profileStatusTitle').innerHTML=l.profileTitle;
+  document.getElementById('profileStatusBody').innerHTML=l.profileBody;
+  document.getElementById('levelText').innerHTML=l.level;
+  document.getElementById('dayDoneText').innerHTML=l.dayDone;
+  document.getElementById('streakLabelText').textContent=l.streak;
+  document.getElementById('freezeLabelText').textContent=l.freeze;
+  document.getElementById('countedText').textContent=l.counted;
+  ['profileStatusTitle','profileStatusBody','levelText'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!english));
+  document.getElementById('countedText').classList.toggle('hidden',false);
+  syncCenteredBlocks();
+  document.getElementById('profileNameText').textContent=state.name||'\u0418\u0433\u043e\u0440\u044c';
+  Object.values(ids.profile.boy).forEach(id=>setId(id,false));
+  Object.values(ids.profile.girl).forEach(id=>setId(id,false));
+  Object.values(ids.profile.cat).forEach(id=>setId(id,false));
+  const stage=Math.max(1,Math.min(9,state.stage||1));
+  syncProfileName(stage);
+  Object.values(ids.profile.banners).forEach(id=>setId(id,false));
+  setId(ids.profile.banners[Math.min(stage,3)],true);
+  const profileCanvas=document.getElementById('profileCharCanvas');
+  if(profileCanvas)profileCanvas.classList.toggle('hidden',!canvasTintAvailable);
+  const profileOk=drawProfileChar();
+  if(!profileOk){
+    const chain=state.character==='girl'?ids.profile.girl:ids.profile.boy;
+    setId(chain[stage],true);
+  }
+  const profileCatCanvas=document.getElementById('profileCatCanvas');
+  if(profileCatCanvas)profileCatCanvas.classList.toggle('hidden',!canvasTintAvailable);
+  const profileCatOk=drawProfileCat();
+  setId(ids.profile.cat[stage],!profileCatOk);
+}
+window.addEventListener('resize',fit);window.addEventListener('orientationchange',fit);
+window.visualViewport?.addEventListener('resize',fit);
+window.visualViewport?.addEventListener('scroll',fit);
+document.querySelectorAll('[data-lang]').forEach(btn=>btn.addEventListener('click',()=>{state.lang=btn.dataset.lang;save();sync();pressClock();pulse({speed:state.lang==='ru'?['5:8','5:9']:['5:10','5:11']})}));
+document.getElementById('hideToggle')?.addEventListener('click',()=>{state.hide=!state.hide;save();sync()});
+document.getElementById('continueBtn')?.addEventListener('pointerdown',()=>pulse({press:ids.language.buttonPress,normal:ids.language.buttonNormal,text:state.lang==='en'?'#languageButtonText':ids.language.buttonText,speed:['5:12','5:13']}));
+document.getElementById('continueBtn')?.addEventListener('click',()=>show('create'));
+document.getElementById('boyPick')?.addEventListener('click',()=>{state.character='boy';save();sync();pulseCatLike()});
+document.getElementById('girlPick')?.addEventListener('click',()=>{state.character='girl';save();sync();pulseCatLike()});
+document.querySelectorAll('.colorPick').forEach(btn=>btn.addEventListener('click',()=>{state.color=btn.dataset.color;save();sync();pulseCatLike()}));
+document.getElementById('nameInput')?.addEventListener('input',e=>{state.name=e.target.value.trim();save();sync()});
+document.getElementById('nextBtn')?.addEventListener('pointerdown',()=>pulse({press:ids.create.buttonPress,normal:ids.create.buttonNormal,text:'#createButtonText',speed:ids.create.speed}));
+document.getElementById('nextBtn')?.addEventListener('click',()=>show('profile'));
+document.getElementById('backBtn')?.addEventListener('click',()=>show('create'));
+document.getElementById('trainingBtn')?.addEventListener('pointerdown',()=>pulse({press:ids.profile.buttonPress,normal:ids.profile.buttonNormal,text:'#profileButtonText',speed:ids.profile.speed}));
+fit();requestAnimationFrame(fit);setTimeout(fit,120);sync();startClockBlink();const initial=new URLSearchParams(location.search).get('screen');if(initial&&screens[initial])show(initial);
+</script>
+</body>
+</html>
